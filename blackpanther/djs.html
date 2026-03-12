@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flayer &mdash; BLACK PANTHER CLUB</title>
+  <title>I Nostri DJ &mdash; BLACK PANTHER CLUB</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
@@ -39,15 +39,12 @@
     @media(max-width:768px){ nav{padding:14px 20px;} .nav-links{display:none;} .page-wrap{padding:100px 20px 60px;} }
 
 
-    .flyer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
-    .flyer-card { aspect-ratio:3/4; border:1px solid rgba(201,149,42,.3); position:relative; overflow:hidden; transition:transform .3s,box-shadow .3s; cursor:pointer; }
-    .flyer-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,.6); }
-    .flyer-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(4,3,10,.9) 0%,rgba(59,0,204,.25) 50%,rgba(201,149,42,.15) 100%); }
-    .flyer-inner { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; text-align:center; }
-    .flyer-date { font-size:.78rem; letter-spacing:.4em; color:var(--gold); text-transform:uppercase; margin-bottom:20px; }
-    .flyer-title { font-family:"Bebas Neue",sans-serif; font-size:2.8rem; letter-spacing:.1em; background:linear-gradient(135deg,var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; }
-    .flyer-sub { font-size:.9rem; letter-spacing:.15em; opacity:.6; margin-bottom:24px; }
-    .flyer-tag { font-size:.72rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(201,149,42,.4); padding:6px 16px; }
+    .djs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:28px; }
+    .dj-card { background:var(--panel); border:1px solid rgba(201,149,42,.15); padding:40px 24px; text-align:center; transition:transform .3s,box-shadow .3s,border-color .3s; }
+    .dj-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,.5); border-color:rgba(201,149,42,.4); }
+    .dj-avatar { width:90px; height:90px; border-radius:50%; background:linear-gradient(135deg,rgba(59,0,204,.5),rgba(201,149,42,.4)); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:2.2rem; border:1px solid rgba(201,149,42,.3); box-shadow:0 0 30px rgba(59,0,204,.3); }
+    .dj-name { font-family:"Bebas Neue",sans-serif; font-size:1.7rem; letter-spacing:.1em; margin-bottom:8px; }
+    .dj-role { font-size:.8rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); opacity:.7; }
 
 
     /* ── LANG SWITCHER ── */
@@ -59,8 +56,6 @@
     .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:none; transition:background .15s; white-space:nowrap; }
     .lang-option:hover { background:rgba(201,149,42,.12); color:var(--gold); }
     .lang-option.active { color:var(--gold); background:rgba(201,149,42,.08); }
-    .nav-admin-btn { color: #3b00cc !important; font-size: 16px; padding: 4px 10px !important; opacity: 0.5; transition: opacity 0.2s !important; }
-    .nav-admin-btn:hover { opacity: 1 !important; }
   </style>
 </head>
 <body>
@@ -83,19 +78,75 @@
     <li><a href="partner.html"><span data-i18n="nav_partner">Partner</span></a></li>
     <li><a href="contatti.html"><span data-i18n="nav_contatti">Contatti</span></a></li>
     <li><a href="login.html" class="nav-btn"><span data-i18n="nav_login">Register / Login</span></a></li>
-    <li><a href="admin.html" class="nav-admin-btn" title="Admin">⚙</a></li>
   </ul>
 </nav>
 
 
 <div class="page-wrap">
-  <p class="section-label">Locandine</p>
-  <h2 class="section-title" data-i18n="flayer_title">Flayer</h2>
+  <p class="section-label">Disco &middot; EDM &middot; Techno</p>
+  <h2 class="section-title" data-i18n="djs_title">I Nostri DJ</h2>
   <div class="section-line"></div>
-  <div class="flyer-grid">
-    <div class="flyer-card fade-in"><div class="flyer-inner"><div class="flyer-date">18 MAR 2026</div><div class="flyer-title">BLACK NIGHT</div><div class="flyer-sub">Weekly Party &middot; 20:00 CET</div><div class="flyer-tag">3DX Virtual World</div></div></div>
-    <div class="flyer-card fade-in"><div class="flyer-inner"><div class="flyer-date">25 MAR 2026</div><div class="flyer-title">PANTHER RAVE</div><div class="flyer-sub">Special Night &middot; 21:00 CET</div><div class="flyer-tag">3DX Virtual World</div></div></div>
-    <div class="flyer-card fade-in"><div class="flyer-inner"><div class="flyer-date">1 APR 2026</div><div class="flyer-title">GOLD EDITION</div><div class="flyer-sub">Members Only &middot; 21:00 CET</div><div class="flyer-tag">3DX Virtual World</div></div></div>
+  <div class="djs-grid">
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">AdeFR</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Aigerim</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Asperina</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🦊</div><p class="dj-name">BadFox</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🖤</div><p class="dj-name">BloodyLaVey</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">CatherineAYA</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Dj Gassosa</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">❄️</div><p class="dj-name">DJ ICE GIRL</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJ lDOne</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJ Lissandro</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Dj Maverik</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">❄️</div><p class="dj-name">DjAuroraBrightMoon</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🖤</div><p class="dj-name">DJBLACKCODE</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">djbob</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJfalk</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJGotika</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJMoana</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DOLCINAKILL</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Emiliano</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">HanFree</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">JANNIK</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Kyra</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🌙</div><p class="dj-name">Luna</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Origana</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Pypr</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Sebina</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">SheiKyA</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">✨</div><p class="dj-name">SweetTease</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">TiaAeolusXX</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">XAleria</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">xSkyler</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">XxDJTetrixX</p><p class="dj-role">DJ &middot; Black Panther</p></div>
+  </div>
+
+  <br><br>
+  <p class="section-label">Rock Night</p>
+  <h2 class="section-title">Band &amp; Artisti Rock</h2>
+  <div class="section-line"></div>
+  <div class="djs-grid">
+    <div class="dj-card fade-in"><div class="dj-avatar">🦊</div><p class="dj-name">BadFox</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🖤</div><p class="dj-name">BloodyLaVey</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">CatherineAYA</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJ Jude</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJ Lissandro</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Dj Maverik</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🖤</div><p class="dj-name">DJBLACKCODE</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJGotika</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">DJMoana</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎸</div><p class="dj-name">HEL’S THUNDER</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Jack Daniels</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">JANNIK</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Kyra</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎸</div><p class="dj-name">Left On Read</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🌙</div><p class="dj-name">Luna</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Sebina</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">Sissi</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">✨</div><p class="dj-name">SweetTease</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎸</div><p class="dj-name">Wings of Doom</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">xSkyler</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
+    <div class="dj-card fade-in"><div class="dj-avatar">🎧</div><p class="dj-name">XxDJTetrixX</p><p class="dj-role">Rock Night &middot; Black Panther</p></div>
   </div>
 </div>
 
@@ -128,25 +179,5 @@ document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style
 </script>
 
 <script src="lang.js"></script>
-<div id="flayerContainer" class="flayer-grid"></div>
-
-<script>
-function loadFlayers(){
- const container=document.getElementById("flayerContainer");
- if(!container) return;
- const flayers=JSON.parse(localStorage.getItem("bpc_flayer")||"[]");
- container.innerHTML="";
- flayers.forEach(url=>{
-   const img=document.createElement("img");
-   img.src=url;
-   img.style.maxWidth="300px";
-   img.style.margin="10px";
-   img.style.borderRadius="10px";
-   container.appendChild(img);
- });
-}
-document.addEventListener("DOMContentLoaded",loadFlayers);
-</script>
-
 </body>
 </html>

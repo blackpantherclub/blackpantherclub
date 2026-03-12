@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flayer &mdash; BLACK PANTHER CLUB</title>
+  <title>Contatti &mdash; BLACK PANTHER CLUB</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
@@ -39,15 +39,12 @@
     @media(max-width:768px){ nav{padding:14px 20px;} .nav-links{display:none;} .page-wrap{padding:100px 20px 60px;} }
 
 
-    .flyer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
-    .flyer-card { aspect-ratio:3/4; border:1px solid rgba(201,149,42,.3); position:relative; overflow:hidden; transition:transform .3s,box-shadow .3s; cursor:pointer; }
-    .flyer-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,.6); }
-    .flyer-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(4,3,10,.9) 0%,rgba(59,0,204,.25) 50%,rgba(201,149,42,.15) 100%); }
-    .flyer-inner { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; text-align:center; }
-    .flyer-date { font-size:.78rem; letter-spacing:.4em; color:var(--gold); text-transform:uppercase; margin-bottom:20px; }
-    .flyer-title { font-family:"Bebas Neue",sans-serif; font-size:2.8rem; letter-spacing:.1em; background:linear-gradient(135deg,var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; }
-    .flyer-sub { font-size:.9rem; letter-spacing:.15em; opacity:.6; margin-bottom:24px; }
-    .flyer-tag { font-size:.72rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(201,149,42,.4); padding:6px 16px; }
+    .contact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px; max-width:750px; margin:0 auto; }
+    .contact-card { background:var(--panel); border:1px solid rgba(201,149,42,.18); padding:36px 24px; text-align:center; transition:border-color .3s,transform .3s; }
+    .contact-card:hover { border-color:rgba(201,149,42,.45); transform:translateY(-4px); }
+    .contact-icon { font-size:2.4rem; margin-bottom:14px; }
+    .contact-label { font-size:.75rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); opacity:.7; margin-bottom:8px; }
+    .contact-val { font-size:1rem; font-weight:600; opacity:.7; }
 
 
     /* ── LANG SWITCHER ── */
@@ -59,8 +56,6 @@
     .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:none; transition:background .15s; white-space:nowrap; }
     .lang-option:hover { background:rgba(201,149,42,.12); color:var(--gold); }
     .lang-option.active { color:var(--gold); background:rgba(201,149,42,.08); }
-    .nav-admin-btn { color: #3b00cc !important; font-size: 16px; padding: 4px 10px !important; opacity: 0.5; transition: opacity 0.2s !important; }
-    .nav-admin-btn:hover { opacity: 1 !important; }
   </style>
 </head>
 <body>
@@ -83,19 +78,18 @@
     <li><a href="partner.html"><span data-i18n="nav_partner">Partner</span></a></li>
     <li><a href="contatti.html"><span data-i18n="nav_contatti">Contatti</span></a></li>
     <li><a href="login.html" class="nav-btn"><span data-i18n="nav_login">Register / Login</span></a></li>
-    <li><a href="admin.html" class="nav-admin-btn" title="Admin">⚙</a></li>
   </ul>
 </nav>
 
 
-<div class="page-wrap">
-  <p class="section-label">Locandine</p>
-  <h2 class="section-title" data-i18n="flayer_title">Flayer</h2>
-  <div class="section-line"></div>
-  <div class="flyer-grid">
-    <div class="flyer-card fade-in"><div class="flyer-inner"><div class="flyer-date">18 MAR 2026</div><div class="flyer-title">BLACK NIGHT</div><div class="flyer-sub">Weekly Party &middot; 20:00 CET</div><div class="flyer-tag">3DX Virtual World</div></div></div>
-    <div class="flyer-card fade-in"><div class="flyer-inner"><div class="flyer-date">25 MAR 2026</div><div class="flyer-title">PANTHER RAVE</div><div class="flyer-sub">Special Night &middot; 21:00 CET</div><div class="flyer-tag">3DX Virtual World</div></div></div>
-    <div class="flyer-card fade-in"><div class="flyer-inner"><div class="flyer-date">1 APR 2026</div><div class="flyer-title">GOLD EDITION</div><div class="flyer-sub">Members Only &middot; 21:00 CET</div><div class="flyer-tag">3DX Virtual World</div></div></div>
+<div class="page-wrap" style="text-align:center;">
+  <p class="section-label">Scrivici</p>
+  <h2 class="section-title" data-i18n="contact_title">Contatti</h2>
+  <div class="section-line" style="margin:0 auto 40px;"></div>
+  <div class="contact-grid">
+    <div class="contact-card fade-in"><div class="contact-icon">&#128172;</div><p class="contact-label">Discord</p><p class="contact-val"><a href="https://discord.gg/wPMJzvgCUj" target="_blank" style="color:var(--gold);text-decoration:none;">discord.gg/wPMJzvgCUj</a></p></div>
+    <div class="contact-card fade-in"><div class="contact-icon">&#128231;</div><p class="contact-label">Email</p><p class="contact-val">info@blackpanther.club</p></div>
+    <div class="contact-card fade-in"><div class="contact-icon">&#127760;</div><p class="contact-label">3DX World</p><p class="contact-val">Cerca: Black Panther</p></div>
   </div>
 </div>
 
@@ -128,25 +122,5 @@ document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style
 </script>
 
 <script src="lang.js"></script>
-<div id="flayerContainer" class="flayer-grid"></div>
-
-<script>
-function loadFlayers(){
- const container=document.getElementById("flayerContainer");
- if(!container) return;
- const flayers=JSON.parse(localStorage.getItem("bpc_flayer")||"[]");
- container.innerHTML="";
- flayers.forEach(url=>{
-   const img=document.createElement("img");
-   img.src=url;
-   img.style.maxWidth="300px";
-   img.style.margin="10px";
-   img.style.borderRadius="10px";
-   container.appendChild(img);
- });
-}
-document.addEventListener("DOMContentLoaded",loadFlayers);
-</script>
-
 </body>
 </html>
