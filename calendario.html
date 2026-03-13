@@ -249,7 +249,7 @@ function renderEvents(filtered) {
       </div>`;
     }).join('');
 
-    const imgHTML = ev.imageUrl ? `<img class="event-image" src="${ev.imageUrl}" alt="Locandina">` : '';
+    const imgHTML = ev.imageUrl ? `<img class="event-image" src="${ev.imageUrl}" alt="Locandina" onerror="this.style.display='none'">` : '';
     const genreShort = ev.genre.replace('80-90 ','').replace(' / ','/');
 
     const card = document.createElement('div');
