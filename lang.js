@@ -27,6 +27,9 @@ const T = {
   nav_partner:    { it:'Partner', en:'Partners', es:'Socios', fr:'Partenaires', de:'Partner', ru:'Партнёры', pl:'Partnerzy', pt:'Parceiros', uk:'Партнери' },
   nav_contatti:   { it:'Contatti', en:'Contact', es:'Contacto', fr:'Contact', de:'Kontakt', ru:'Контакты', pl:'Kontakt', pt:'Contato', uk:'Контакти' },
   nav_login:      { it:'Register / Login', en:'Register / Login', es:'Registro / Login', fr:'Inscription / Connexion', de:'Registrieren / Login', ru:'Регистрация / Вход', pl:'Rejestracja / Login', pt:'Registro / Login', uk:'Реєстрація / Вхід' },
+  nav_events:     { it:'Events', en:'Events', es:'Eventos', fr:'Événements', de:'Events', ru:'События', pl:'Wydarzenia', pt:'Eventos', uk:'Події' },
+  nav_about:      { it:'About', en:'About', es:'Sobre Nosotros', fr:'À Propos', de:'Über Uns', ru:'О нас', pl:'O Nas', pt:'Sobre Nós', uk:'Про Нас' },
+  nav_admin:      { it:'Admin', en:'Admin', es:'Admin', fr:'Admin', de:'Admin', ru:'Админ', pl:'Admin', pt:'Admin', uk:'Адмін' },
 
   /* ── INDEX ── */
   hero_label:     { it:'Black Panther Club · 3DX Virtual World', en:'Black Panther Club · 3DX Virtual World', es:'Black Panther Club · Mundo Virtual 3DX', fr:'Black Panther Club · Monde Virtuel 3DX', de:'Black Panther Club · 3DX Virtuelle Welt', ru:'Black Panther Club · Виртуальный мир 3DX', pl:'Black Panther Club · Wirtualny Świat 3DX', pt:'Black Panther Club · Mundo Virtual 3DX', uk:'Black Panther Club · Віртуальний Світ 3DX' },
