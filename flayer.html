@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flayer &mdash; BLACK PANTHER CLUB</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -38,7 +38,6 @@
     footer p { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; opacity:.3; }
     @media(max-width:768px){ nav{padding:14px 20px;} .nav-links{display:none;} .page-wrap{padding:100px 20px 60px;} }
 
-
     .flyer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
     .flyer-card { aspect-ratio:3/4; border:1px solid rgba(201,149,42,.3); position:relative; overflow:hidden; transition:transform .3s,box-shadow .3s; cursor:pointer; }
     .flyer-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,.6); }
@@ -49,7 +48,6 @@
     .flyer-sub { font-size:.9rem; letter-spacing:.15em; opacity:.6; margin-bottom:24px; }
     .flyer-tag { font-size:.72rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(201,149,42,.4); padding:6px 16px; }
 
-
     /* ── LANG SWITCHER ── */
     .lang-switcher { position:relative; margin-left:12px; }
     .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:none; transition:all .2s; white-space:nowrap; }
@@ -59,6 +57,66 @@
     .lang-option { display:block; width:100%; padding:7px 14px; font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:600; letter-spacing:.08em; color:var(--white); background:none; border:none; text-align:left; cursor:none; transition:background .15s,color .15s; }
     .lang-option:hover, .lang-option.active { background:rgba(201,149,42,.15); color:var(--gold); }
 
+    /* ── FLYER GRID IMAGES ── */
+    .flyer-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    .flyer-card:hover .flyer-thumb {
+      transform: scale(1.05);
+    }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99990;
+      background: rgba(4,3,10,.92);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      cursor: none;
+    }
+    #lightbox.open {
+      display: flex;
+      animation: lbFadeIn .25s ease;
+    }
+    @keyframes lbFadeIn {
+      from { opacity:0; }
+      to   { opacity:1; }
+    }
+    #lightbox-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 1px solid rgba(201,149,42,.4);
+      box-shadow: 0 0 80px rgba(59,0,204,.4), 0 0 40px rgba(201,149,42,.2);
+      animation: lbZoomIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes lbZoomIn {
+      from { transform: scale(.88); opacity:0; }
+      to   { transform: scale(1);   opacity:1; }
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      background: none;
+      border: none;
+      cursor: none;
+      letter-spacing: .1em;
+      opacity: .7;
+      transition: opacity .2s;
+    }
+    #lightbox-close:hover { opacity: 1; }
+
   </style>
 </head>
 <body>
@@ -66,6 +124,12 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <canvas id="canvas"></canvas>
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox">
+  <button id="lightbox-close">✕ CHIUDI</button>
+  <img id="lightbox-img" src="" alt="Flyer">
+</div>
 
 <nav>
   <a href="index.html" class="nav-logo">
@@ -98,7 +162,6 @@
   <h1 class="section-title" data-i18n="flayer_title">Flyer</h1>
   <div class="section-line"></div>
 
-  <!-- ✅ FIX: flayerContainer is now inside .page-wrap -->
   <div id="flayerContainer" class="flyer-grid"></div>
 </div>
 
@@ -108,10 +171,13 @@
 </footer>
 
 <script>
+/* ── CURSOR ── */
 const cursor=document.getElementById("cursor"),ring=document.getElementById("cursor-ring");
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+"px";cursor.style.top=my+"px";});
 (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(animRing);})();
+
+/* ── CANVAS PARTICLES ── */
 const canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d");
 let W,H,particles=[];
 function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
@@ -121,9 +187,11 @@ for(let i=0;i<150;i++){let p=new Particle();p.life=Math.random();particles.push(
 function draw(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.life+=.003;if(p.life>p.maxLife)p.reset();let alpha=Math.sin((p.life/p.maxLife)*Math.PI)*.5;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba("+p.color+","+alpha+")";ctx.fill();p.x+=p.vx;p.y+=p.vy;});for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){let dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle="rgba(201,149,42,"+(.15*(1-dist/100))+")";ctx.lineWidth=.4;ctx.stroke();}}requestAnimationFrame(draw);}
 draw();
 document.addEventListener("mousemove",e=>{particles.forEach(p=>{let dx=e.clientX-p.x,dy=e.clientY-p.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){p.vx-=dx/dist*.3;p.vy-=dy/dist*.3;}p.vx*=.97;p.vy*=.97;});});
-// Active nav link
+
+/* ── ACTIVE NAV ── */
 document.querySelectorAll(".nav-links a").forEach(a=>{if(a.href===location.href)a.classList.add("active");});
-// Fade in
+
+/* ── FADE IN ── */
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity="1";e.target.style.transform="translateY(0)";}});},{threshold:.1});
 document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style.transform="translateY(28px)";el.style.transition="opacity .7s ease,transform .7s ease";obs.observe(el);});
 </script>
@@ -131,27 +199,59 @@ document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style
 <script src="lang.js"></script>
 
 <script>
-function loadFlayers(){
- const container=document.getElementById("flayerContainer");
- if(!container) return;
- const flayers=JSON.parse(localStorage.getItem("bpc_flayer")||"[]");
- container.innerHTML="";
- if(flayers.length===0){
-   container.innerHTML='<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Nessun flyer disponibile</p>';
-   return;
- }
- flayers.forEach(item=>{
-   const src = typeof item === "string" ? item : item.url;
-   const img=document.createElement("img");
-   img.src=src;
-   img.alt=typeof item === "object" && item.name ? item.name : "Flyer";
-   img.style.maxWidth="300px";
-   img.style.margin="10px";
-   img.style.borderRadius="10px";
-   container.appendChild(img);
- });
+/* ── LIGHTBOX ── */
+const lightbox     = document.getElementById("lightbox");
+const lightboxImg  = document.getElementById("lightbox-img");
+const lightboxClose= document.getElementById("lightbox-close");
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || "Flyer";
+  lightbox.classList.add("open");
+  document.body.style.overflow = "hidden";
 }
-document.addEventListener("DOMContentLoaded",loadFlayers);
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  document.body.style.overflow = "";
+  setTimeout(() => { lightboxImg.src = ""; }, 300);
+}
+
+lightboxClose.addEventListener("click", closeLightbox);
+lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
+
+/* ── LOAD FLYERS ── */
+function loadFlayers() {
+  const container = document.getElementById("flayerContainer");
+  if (!container) return;
+
+  const flayers = JSON.parse(localStorage.getItem("bpc_flayer") || "[]");
+  container.innerHTML = "";
+
+  if (flayers.length === 0) {
+    container.innerHTML = '<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Nessun flyer disponibile</p>';
+    return;
+  }
+
+  flayers.forEach(item => {
+    const src = typeof item === "string" ? item : item.url;
+    const alt = typeof item === "object" && item.name ? item.name : "Flyer";
+
+    const card = document.createElement("div");
+    card.className = "flyer-card";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = alt;
+    img.className = "flyer-thumb";
+
+    card.appendChild(img);
+    card.addEventListener("click", () => openLightbox(src, alt));
+    container.appendChild(card);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadFlayers);
 </script>
 
 </body>
