@@ -537,6 +537,9 @@
       saveImageRef(type, { url: result.secure_url, name: file.name, public_id: result.public_id, created: Date.now() });
       loadImages();
       showToast('✓ ' + file.name + ' caricato!', 'success');
+      if (type === 'flayer') {
+        setTimeout(() => { window.location.href = 'flayer.html'; }, 1500);
+      }
     } catch (err) {
       setStatus(id, 'error', '✗ ERRORE');
       showToast('Errore upload: ' + err.message, 'error');

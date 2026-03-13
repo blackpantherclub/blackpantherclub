@@ -136,9 +136,15 @@ function loadFlayers(){
  if(!container) return;
  const flayers=JSON.parse(localStorage.getItem("bpc_flayer")||"[]");
  container.innerHTML="";
- flayers.forEach(url=>{
+ if(flayers.length===0){
+   container.innerHTML='<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Nessun flyer disponibile</p>';
+   return;
+ }
+ flayers.forEach(item=>{
+   const src = typeof item === "string" ? item : item.url;
    const img=document.createElement("img");
-   img.src=url;
+   img.src=src;
+   img.alt=typeof item === "object" && item.name ? item.name : "Flyer";
    img.style.maxWidth="300px";
    img.style.margin="10px";
    img.style.borderRadius="10px";
