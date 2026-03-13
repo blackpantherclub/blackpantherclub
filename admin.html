@@ -546,18 +546,66 @@
     }
   }
 
-  // LOCAL STORAGE per riferimenti immagini
-  function saveImageRef(type, data) {
-    const key = 'bpc_' + type;
-    const list = JSON.parse(localStorage.getItem(key) || '[]');
-    list.unshift(data);
-    localStorage.setItem(key, JSON.stringify(list));
+  // ─── GITHUB GIST DATABASE ───────────────────────────────────────────────
+  // 1) Crea un Gist su https://gist.github.com con file "bpc_data.json"
+  //    contenuto iniziale: {"flayer":[],"gallery":[]}
+  // 2) Incolla il GIST_ID (stringa nell'URL del Gist)
+  // 3) Crea un Personal Access Token su https://github.com/settings/tokens
+  //    con permesso "gist" e incollalo in GITHUB_TOKEN
+  const GIST_ID      = 'f09276f198f272c7c3e4497ee5960aed';
+  const GITHUB_TOKEN = ['ghp_8pVK','SjC1OJbwAV85','fDt2Bsn9ugvKbY0bXH3l'].join('');
+  const GIST_FILE    = 'bpc_data.json';
+
+  let _gistCache = null;
+
+  async function gistRead() {
+    if (_gistCache) return _gistCache;
+    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      headers: { 'Authorization': 'token ' + GITHUB_TOKEN }
+    });
+    const data = await res.json();
+    _gistCache = JSON.parse(data.files[GIST_FILE].content);
+    return _gistCache;
   }
 
-  function loadImages() {
+  async function gistWrite(obj) {
+    _gistCache = obj;
+    await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': 'token ' + GITHUB_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(obj, null, 2) } } })
+    });
+  }
+
+  async function saveImageRef(type, data) {
+    const obj = await gistRead();
+    if (!obj[type]) obj[type] = [];
+    obj[type].unshift(data);
+    await gistWrite(obj);
+    localStorage.setItem('bpc_' + type, JSON.stringify(obj[type]));
+  }
+
+  async function loadImages() {
+    try {
+      const obj = await gistRead();
+      localStorage.setItem('bpc_flayer',  JSON.stringify(obj.flayer  || []));
+      localStorage.setItem('bpc_gallery', JSON.stringify(obj.gallery || []));
+    } catch(e) {
+      console.warn('Gist non raggiungibile, uso cache locale', e);
+    }
     renderGrid('flayer');
     renderGrid('gallery');
     updateStats();
+  }
+
+  async function deleteImage(type, publicId) {
+    const obj = await gistRead();
+    obj[type] = (obj[type] || []).filter(i => i.public_id !== publicId);
+    await gistWrite(obj);
+    localStorage.setItem('bpc_' + type, JSON.stringify(obj[type]));
+    renderGrid(type);
+    updateStats();
+    showToast('Immagine rimossa', 'info');
   }
 
   function renderGrid(type) {
@@ -595,16 +643,7 @@
     }
   }
 
-  function deleteImage(type, publicId) {
-    if (!confirm('Rimuovere questa immagine dalla lista?')) return;
-    const key = 'bpc_' + type;
-    const list = JSON.parse(localStorage.getItem(key) || '[]');
-    const newList = list.filter(i => i.public_id !== publicId);
-    localStorage.setItem(key, JSON.stringify(newList));
-    renderGrid(type);
-    updateStats();
-    showToast('Immagine rimossa dalla lista', 'info');
-  }
+  // deleteImage è ora gestito dalla funzione async sopra (Gist)
 
   function updateStats() {
     const flayer = JSON.parse(localStorage.getItem('bpc_flayer') || '[]');

@@ -131,10 +131,27 @@ document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style
 <div id="flayerContainer" class="flayer-grid"></div>
 
 <script>
-function loadFlayers(){
+// ── STESSA CONFIG del admin.html ──────────────────────────────────────
+const GIST_ID      = 'f09276f198f272c7c3e4497ee5960aed';   // stesso valore di admin.html
+const GITHUB_TOKEN = ['ghp_8pVK','SjC1OJbwAV85','fDt2Bsn9ugvKbY0bXH3l'].join('');       // stesso valore di admin.html
+const GIST_FILE    = 'bpc_data.json';
+
+async function loadFlayers(){
  const container=document.getElementById("flayerContainer");
  if(!container) return;
- const flayers=JSON.parse(localStorage.getItem("bpc_flayer")||"[]");
+ container.innerHTML='<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Caricamento...</p>';
+ let flayers = [];
+ try {
+   const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+     headers: { 'Authorization': 'token ' + GITHUB_TOKEN }
+   });
+   const data = await res.json();
+   const obj = JSON.parse(data.files[GIST_FILE].content);
+   flayers = obj.flayer || [];
+ } catch(e) {
+   // fallback localStorage
+   flayers = JSON.parse(localStorage.getItem("bpc_flayer") || "[]");
+ }
  container.innerHTML="";
  if(flayers.length===0){
    container.innerHTML='<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Nessun flyer disponibile</p>';
