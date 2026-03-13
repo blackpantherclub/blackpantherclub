@@ -38,8 +38,8 @@
     footer p { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; opacity:.3; }
     @media(max-width:768px){ nav{padding:14px 20px;} .nav-links{display:none;} .page-wrap{padding:100px 20px 60px;} }
 
-    .flyer-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,220px)); gap:24px; }
-    .flyer-card { width:220px; height:300px; border:1px solid rgba(201,149,42,.3); position:relative; overflow:hidden; transition:transform .3s,box-shadow .3s; cursor:pointer; }
+    .flyer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
+    .flyer-card { aspect-ratio:3/4; border:1px solid rgba(201,149,42,.3); position:relative; overflow:hidden; transition:transform .3s,box-shadow .3s; cursor:pointer; }
     .flyer-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,.6); }
     .flyer-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(4,3,10,.9) 0%,rgba(59,0,204,.25) 50%,rgba(201,149,42,.15) 100%); }
     .flyer-inner { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; text-align:center; }
@@ -137,15 +137,12 @@
     <span class="nav-logo-text">Black Panther</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html"     data-i18n="nav_home">Home</a></li>
-    <li><a href="calendar.html"  data-i18n="nav_calendar">Calendario DJ</a></li>
-    <li><a href="gallery.html"   data-i18n="nav_gallery">Foto / Gallery</a></li>
-    <li><a href="djs.html"       data-i18n="nav_djs">I Nostri DJ</a></li>
-    <li><a href="danceteam.html" data-i18n="nav_danceteam">Dance Team</a></li>
-    <li><a href="flayer.html"    data-i18n="nav_flayer" class="active">Flayer</a></li>
-    <li><a href="partner.html"   data-i18n="nav_partner">Partner</a></li>
-    <li><a href="contatti.html"  data-i18n="nav_contatti">Contatti</a></li>
-    <li><a href="login.html"     class="nav-btn" data-i18n="nav_login">Register / Login</a></li>
+    <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+    <li><a href="events.html" data-i18n="nav_events">Events</a></li>
+    <li><a href="flayer.html" class="active" data-i18n="nav_flayer">Flyer</a></li>
+    <li><a href="gallery.html" data-i18n="nav_gallery">Gallery</a></li>
+    <li><a href="about.html" data-i18n="nav_about">About</a></li>
+    <li><a href="admin.html" class="nav-btn" data-i18n="nav_admin">Admin</a></li>
   </ul>
   <!-- lang switcher injected by lang.js -->
 </nav>
