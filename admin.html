@@ -534,11 +534,12 @@
 
       document.getElementById('prog-' + id).style.width = '100%';
       setStatus(id, 'done', '✓ CARICATO');
-      saveImageRef(type, { url: result.secure_url, name: file.name, public_id: result.public_id, created: Date.now() });
+      showToast('Salvataggio in corso...', 'info');
+      await saveImageRef(type, { url: result.secure_url, name: file.name, public_id: result.public_id, created: Date.now() });
       loadImages();
       showToast('✓ ' + file.name + ' caricato!', 'success');
       if (type === 'flayer') {
-        setTimeout(() => { window.location.href = 'flayer.html'; }, 1500);
+        setTimeout(() => { window.location.href = 'flayer.html'; }, 2000);
       }
     } catch (err) {
       setStatus(id, 'error', '✗ ERRORE');
@@ -563,8 +564,16 @@
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
       headers: { 'Authorization': 'token ' + GITHUB_TOKEN }
     });
+    if (!res.ok) throw new Error('Gist fetch failed: ' + res.status);
     const data = await res.json();
-    _gistCache = JSON.parse(data.files[GIST_FILE].content);
+    const fileContent = data.files[GIST_FILE]?.content || '{}';
+    try {
+      _gistCache = JSON.parse(fileContent);
+      if (!_gistCache.flayer) _gistCache.flayer = [];
+      if (!_gistCache.gallery) _gistCache.gallery = [];
+    } catch(e) {
+      _gistCache = { flayer: [], gallery: [] };
+    }
     return _gistCache;
   }
 

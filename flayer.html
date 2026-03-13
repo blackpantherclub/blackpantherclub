@@ -145,9 +145,12 @@ async function loadFlayers(){
    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
      headers: { 'Authorization': 'token ' + GITHUB_TOKEN }
    });
+   if (!res.ok) throw new Error('Gist: ' + res.status);
    const data = await res.json();
-   const obj = JSON.parse(data.files[GIST_FILE].content);
+   const raw = data.files[GIST_FILE]?.content || '{}';
+   const obj = JSON.parse(raw);
    flayers = obj.flayer || [];
+   console.log('Flayer dal Gist:', flayers.length, flayers);
  } catch(e) {
    // fallback localStorage
    flayers = JSON.parse(localStorage.getItem("bpc_flayer") || "[]");
