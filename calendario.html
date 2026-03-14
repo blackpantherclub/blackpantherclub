@@ -136,7 +136,7 @@
   <h2 class="section-title" data-i18n="cal_title">Calendario DJ</h2>
   <div class="section-line"></div>
 
-  <div class="status-bar">
+  <div class="status-bar" id="status-bar" style="display:none;">
     <div class="status-dot loading" id="status-dot"></div>
     <span class="status-text" id="status-text">Connessione al NAS in corso...</span>
     <button class="status-refresh" onclick="loadCalendar()">&#8635; Aggiorna</button>
@@ -206,7 +206,6 @@ function setStatus(state, msg) {
 }
 
 async function loadCalendar() {
-  setStatus('loading', 'Connessione al NAS in corso...');
   document.getElementById('skeleton').style.display = 'grid';
   document.getElementById('cal-grid').style.display = 'none';
 
@@ -217,6 +216,7 @@ async function loadCalendar() {
     ALL_EVENTS = data.events || [];
     const d = new Date(data.updated);
     setStatus('live', `Live dal NAS · Aggiornato: ${d.toLocaleTimeString('it-IT')}`);
+    document.getElementById('status-bar').style.display = 'flex';
   } catch(e) {
     console.warn('API NAS non raggiungibile, uso dati locali:', e.message);
     ALL_EVENTS = FALLBACK_EVENTS;
