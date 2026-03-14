@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Music &mdash; BLACK PANTHER CLUB</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    :root { --deep:#04030a; --gold:#c9952a; --gold-light:#f0c060; --blue-glow:#3b00cc; --white:#e8e8f0; --panel:rgba(8,5,20,0.88); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--deep); color:var(--white); font-family:"Rajdhani",sans-serif; overflow-x:hidden; cursor:none; min-height:100vh; }
+    #cursor { position:fixed; width:12px; height:12px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
+    #cursor-ring { position:fixed; width:34px; height:34px; border:1.5px solid rgba(201,149,42,.7); border-radius:50%; pointer-events:none; z-index:99998; transform:translate(-50%,-50%); transition:all .1s ease; }
+    #canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+    nav { position:fixed; top:0; width:100%; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:16px 48px; background:linear-gradient(to bottom,rgba(4,3,10,.97) 80%,transparent); border-bottom:1px solid rgba(201,149,42,.15); }
+    .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-logo img { width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(201,149,42,.6)); }
+    .nav-logo-text { font-family:"Bebas Neue",sans-serif; font-size:1.6rem; letter-spacing:.2em; color:var(--gold); text-shadow:0 0 20px rgba(201,149,42,.5); }
+    .nav-links { display:flex; gap:14px; list-style:none; }
+    .nav-links a { font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s; position:relative; }
+    .nav-links a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--gold); }
+    .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+    .nav-btn { background:var(--gold) !important; color:#000 !important; padding:7px 18px; font-weight:700; border-radius:2px; }
+    .nav-btn:hover { background:var(--gold-light) !important; }
+    .nav-btn::after { display:none !important; }
+    .page-wrap { position:relative; z-index:1; padding:120px 48px 80px; max-width:1200px; margin:0 auto; }
+    .section-label { font-size:.75rem; letter-spacing:.5em; text-transform:uppercase; color:var(--gold); opacity:.7; margin-bottom:10px; }
+    .section-title { font-family:"Bebas Neue",sans-serif; font-size:clamp(2.5rem,5vw,4rem); letter-spacing:.08em; margin-bottom:8px; }
+    .section-line { width:60px; height:2px; background:var(--gold); margin-bottom:40px; }
+    footer { position:relative; z-index:1; text-align:center; padding:40px 24px; border-top:1px solid rgba(201,149,42,.1); margin-top:60px; }
+    footer img { width:50px; opacity:.5; margin-bottom:10px; filter:drop-shadow(0 0 10px rgba(201,149,42,.4)); }
+    footer p { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; opacity:.3; }
+    @media(max-width:768px){ nav{padding:14px 20px;} .nav-links{display:none;} .page-wrap{padding:100px 20px 60px;} }
+
+    /* ── LANG SWITCHER ── */
+    .lang-switcher { position:relative; margin-left:12px; }
+    .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:none; transition:all .2s; white-space:nowrap; }
+    .lang-btn:hover { background:rgba(201,149,42,.22); }
+    .lang-dropdown { display:none; position:absolute; top:calc(100% + 6px); right:0; background:rgba(8,5,20,.97); border:1px solid rgba(201,149,42,.3); min-width:100%; z-index:2000; }
+    .lang-dropdown.open { display:block; }
+    .lang-option { display:block; width:100%; padding:7px 14px; font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:600; letter-spacing:.08em; color:var(--white); background:none; border:none; text-align:left; cursor:none; transition:background .15s,color .15s; }
+    .lang-option:hover, .lang-option.active { background:rgba(201,149,42,.15); color:var(--gold); }
+
+    /* ── MUSIC SECTION ── */
+    .music-intro {
+      font-size:1.05rem;
+      line-height:1.7;
+      color:rgba(232,232,240,.65);
+      letter-spacing:.06em;
+      max-width:700px;
+      margin-bottom:48px;
+    }
+
+    .music-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+      gap:28px;
+    }
+
+    .music-card {
+      background:linear-gradient(145deg,rgba(8,5,20,.92),rgba(59,0,204,.08));
+      border:1px solid rgba(201,149,42,.2);
+      border-radius:4px;
+      overflow:hidden;
+      transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;
+      position:relative;
+    }
+    .music-card:hover {
+      transform:translateY(-6px);
+      box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 30px rgba(59,0,204,.15);
+      border-color:rgba(201,149,42,.45);
+    }
+
+    .music-card-header {
+      padding:28px 28px 0;
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    .platform-icon {
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      transition:transform .3s ease;
+    }
+    .music-card:hover .platform-icon { transform:scale(1.1); }
+
+    .platform-icon svg { width:28px; height:28px; }
+
+    .platform-icon.soundcloud { background:linear-gradient(135deg,#ff5500,#ff7700); }
+    .platform-icon.spotify    { background:linear-gradient(135deg,#1db954,#1ed760); }
+    .platform-icon.youtube    { background:linear-gradient(135deg,#ff0000,#cc0000); }
+    .platform-icon.mixcloud   { background:linear-gradient(135deg,#5000ff,#8833ff); }
+    .platform-icon.bandcamp   { background:linear-gradient(135deg,#1da0c3,#629aa9); }
+    .platform-icon.apple      { background:linear-gradient(135deg,#fc3c44,#fa2d55); }
+    .platform-icon.generic    { background:linear-gradient(135deg,var(--gold),var(--gold-light)); }
+
+    .platform-info h3 {
+      font-family:"Bebas Neue",sans-serif;
+      font-size:1.5rem;
+      letter-spacing:.08em;
+      color:var(--white);
+      margin-bottom:2px;
+    }
+    .platform-info .platform-tag {
+      font-size:.72rem;
+      letter-spacing:.25em;
+      text-transform:uppercase;
+      color:var(--gold);
+      opacity:.8;
+    }
+
+    .music-card-body {
+      padding:20px 28px 28px;
+    }
+    .music-card-body p {
+      font-size:.92rem;
+      line-height:1.6;
+      color:rgba(232,232,240,.55);
+      letter-spacing:.04em;
+    }
+
+    .music-link {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:18px;
+      padding:10px 22px;
+      font-family:"Bebas Neue",sans-serif;
+      font-size:1rem;
+      letter-spacing:.18em;
+      text-decoration:none;
+      color:#000;
+      background:linear-gradient(135deg,var(--gold),var(--gold-light));
+      border-radius:2px;
+      transition:transform .2s ease,box-shadow .2s ease;
+      cursor:none;
+    }
+    .music-link:hover {
+      transform:translateY(-2px);
+      box-shadow:0 8px 24px rgba(201,149,42,.35);
+    }
+    .music-link svg { width:16px; height:16px; }
+
+    /* ── EMPTY STATE ── */
+    .music-empty {
+      text-align:center;
+      padding:60px 20px;
+      color:rgba(232,232,240,.35);
+      font-size:.92rem;
+      letter-spacing:.2em;
+    }
+    .music-empty .empty-icon {
+      font-size:3rem;
+      margin-bottom:16px;
+    }
+
+    /* ── EQUALIZER ANIMATION ── */
+    .eq-bars {
+      display:flex;
+      align-items:flex-end;
+      gap:3px;
+      height:20px;
+      margin-left:auto;
+      padding-right:28px;
+      padding-top:12px;
+    }
+    .eq-bars span {
+      display:block;
+      width:3px;
+      background:var(--gold);
+      border-radius:1px;
+      animation:eqBounce 1.2s ease-in-out infinite;
+    }
+    .eq-bars span:nth-child(1) { height:8px;  animation-delay:0s; }
+    .eq-bars span:nth-child(2) { height:14px; animation-delay:.15s; }
+    .eq-bars span:nth-child(3) { height:6px;  animation-delay:.3s; }
+    .eq-bars span:nth-child(4) { height:18px; animation-delay:.45s; }
+    .eq-bars span:nth-child(5) { height:10px; animation-delay:.6s; }
+
+    @keyframes eqBounce {
+      0%,100% { transform:scaleY(1); }
+      50%     { transform:scaleY(.3); }
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="canvas"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="BPC Logo">
+    <span class="nav-logo-text">Black Panther</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html"     data-i18n="nav_home">Home</a></li>
+    <li><a href="calendar.html"  data-i18n="nav_calendar">Calendario DJ</a></li>
+    <li><a href="gallery.html"   data-i18n="nav_gallery">Foto / Gallery</a></li>
+    <li><a href="djs.html"       data-i18n="nav_djs">I Nostri DJ</a></li>
+    <li><a href="danceteam.html" data-i18n="nav_danceteam">Dance Team</a></li>
+    <li><a href="flayer.html"    data-i18n="nav_flayer">Flayer</a></li>
+    <li><a href="partner.html"   data-i18n="nav_partner">Partner</a></li>
+    <li><a href="contatti.html"  data-i18n="nav_contatti">Contatti</a></li>
+    <li><a href="mymusic.html"   data-i18n="nav_mymusic" class="active">My Music</a></li>
+    <li><a href="login.html"     class="nav-btn" data-i18n="nav_login">Register / Login</a></li>
+  </ul>
+  <!-- lang switcher injected by lang.js -->
+</nav>
+
+<div class="page-wrap">
+  <p class="section-label" data-i18n="mymusic_label">Black Panther Club · 3DX Virtual World</p>
+  <h1 class="section-title" data-i18n="mymusic_title">My Music</h1>
+  <div class="section-line"></div>
+
+  <p class="music-intro fade-in" data-i18n="mymusic_intro">
+    Ascolta le mie produzioni musicali e i miei mix sulle principali piattaforme di streaming. Clicca su una piattaforma per ascoltare!
+  </p>
+
+  <div class="music-grid" id="musicGrid">
+
+    <!-- ── SOUNDCLOUD ── -->
+    <div class="music-card fade-in">
+      <div class="music-card-header">
+        <div class="platform-icon soundcloud">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M11.56 8.87V17h8.76c1.85 0 3.35-1.5 3.35-3.35 0-1.85-1.5-3.35-3.35-3.35-.35 0-.68.05-1 .15C18.89 7.87 16.8 6 14.24 6c-1.12 0-2.15.38-2.98 1.02v1.85zm-1.25-.3V17h.75V8.23c-.25-.2-.49-.42-.75-.66zM9.06 9.6V17h.75V9.07c-.25.16-.5.34-.75.53zM7.81 10.8V17h.75v-5.8c-.22.18-.47.38-.75.6zM6.56 12.04V17h.75v-4.56c-.28.16-.52.35-.75.6zM5.31 13.54V17h.75v-3.16c-.2.12-.44.28-.75.7zM4.06 14.3V17h.75v-2.52c-.26.18-.5.4-.75.82zM2.81 15.04V17h.75v-1.71c-.26.14-.5.36-.75.75zM1.56 15.84V17h.75v-.94c-.28.12-.5.38-.75.78z"/></svg>
+        </div>
+        <div class="platform-info">
+          <h3>SoundCloud</h3>
+          <span class="platform-tag" data-i18n="mymusic_tag_tracks">Tracce & Mix</span>
+        </div>
+        <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="music-card-body">
+        <p data-i18n="mymusic_sc_desc">Ascolta tutte le mie tracce originali e i mix esclusivi su SoundCloud.</p>
+        <a href="https://soundcloud.com/simox91-st" target="_blank" rel="noopener" class="music-link" data-platform="soundcloud">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l3.5 2L12 3l3.5 2L19 3v18l-3.5-2L12 21l-3.5-2L5 21V3z"/></svg>
+          <span data-i18n="mymusic_listen">Ascolta Ora</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ── SPOTIFY ── -->
+    <div class="music-card fade-in">
+      <div class="music-card-header">
+        <div class="platform-icon spotify">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.076-.496 9.712 1.115a.623.623 0 01.207.857zm1.224-2.719a.78.78 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.78.78 0 01-.452-1.493c3.632-1.102 8.147-.568 11.234 1.33a.78.78 0 01.255 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.934.934 0 11-.542-1.79c3.533-1.072 9.404-.865 13.115 1.338a.934.934 0 01-.955 1.612z"/></svg>
+        </div>
+        <div class="platform-info">
+          <h3>Spotify</h3>
+          <span class="platform-tag" data-i18n="mymusic_tag_streaming">Streaming</span>
+        </div>
+        <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="music-card-body">
+        <p data-i18n="mymusic_sp_desc">Trova la mia musica su Spotify. Seguimi per non perdere le nuove uscite!</p>
+        <a href="https://open.spotify.com/intl-it/artist/0agQckq7DJ5KxhEUpY7EhB" target="_blank" rel="noopener" class="music-link" data-platform="spotify">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l3.5 2L12 3l3.5 2L19 3v18l-3.5-2L12 21l-3.5-2L5 21V3z"/></svg>
+          <span data-i18n="mymusic_listen">Ascolta Ora</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ── YOUTUBE ── -->
+    <div class="music-card fade-in">
+      <div class="music-card-header">
+        <div class="platform-icon youtube">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <div class="platform-info">
+          <h3>YouTube</h3>
+          <span class="platform-tag" data-i18n="mymusic_tag_video">Video & Live</span>
+        </div>
+        <div class="eq-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="music-card-body">
+        <p data-i18n="mymusic_yt_desc">Guarda i video musicali, le sessioni live e i DJ set sul mio canale YouTube.</p>
+        <a href="https://youtube.com/@simoneterragni?si=x-Jm4sPyBgrogQKY" target="_blank" rel="noopener" class="music-link" data-platform="youtube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l3.5 2L12 3l3.5 2L19 3v18l-3.5-2L12 21l-3.5-2L5 21V3z"/></svg>
+          <span data-i18n="mymusic_listen">Ascolta Ora</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── ISTRUZIONI PER AGGIUNGERE LINK ── -->
+  <!-- 
+    PER PERSONALIZZARE I LINK:
+    Sostituisci href="#" con i tuoi veri URL, ad esempio:
+      href="https://soundcloud.com/IL-TUO-PROFILO"
+      href="https://open.spotify.com/artist/IL-TUO-ID"
+      href="https://youtube.com/@IL-TUO-CANALE"
+    
+    PER AGGIUNGERE ALTRE PIATTAFORME:
+    Copia un blocco .music-card e cambia:
+      - la classe .platform-icon (soundcloud/spotify/youtube/mixcloud/bandcamp/apple/generic)
+      - il nome della piattaforma nel <h3>
+      - la descrizione nel <p>
+      - il link href
+  -->
+
+</div>
+
+<footer>
+  <img src="logo.png" alt="BPC">
+  <p>&copy; 2026 Black Panther Club &middot; All Rights Reserved &middot; 3DX Virtual World</p>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cursor=document.getElementById("cursor"),ring=document.getElementById("cursor-ring");
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+"px";cursor.style.top=my+"px";});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(animRing);})();
+
+/* ── CANVAS PARTICLES ── */
+const canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d");
+let W,H,particles=[];
+function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
+resize();window.addEventListener("resize",resize);
+function Particle(){this.reset=function(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.8+.3;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.life=Math.random();this.maxLife=.4+Math.random()*.6;this.color=Math.random()<.6?"201,149,42":"80,40,220";};this.reset();}
+for(let i=0;i<150;i++){let p=new Particle();p.life=Math.random();particles.push(p);}
+function draw(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.life+=.003;if(p.life>p.maxLife)p.reset();let alpha=Math.sin((p.life/p.maxLife)*Math.PI)*.5;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba("+p.color+","+alpha+")";ctx.fill();p.x+=p.vx;p.y+=p.vy;});for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){let dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle="rgba(201,149,42,"+(.15*(1-dist/100))+")";ctx.lineWidth=.4;ctx.stroke();}}requestAnimationFrame(draw);}
+draw();
+document.addEventListener("mousemove",e=>{particles.forEach(p=>{let dx=e.clientX-p.x,dy=e.clientY-p.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){p.vx-=dx/dist*.3;p.vy-=dy/dist*.3;}p.vx*=.97;p.vy*=.97;});});
+
+/* ── ACTIVE NAV ── */
+document.querySelectorAll(".nav-links a").forEach(a=>{if(a.href===location.href)a.classList.add("active");});
+
+/* ── FADE IN ── */
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity="1";e.target.style.transform="translateY(0)";}});},{threshold:.1});
+document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style.transform="translateY(28px)";el.style.transition="opacity .7s ease,transform .7s ease";obs.observe(el);});
+</script>
+
+<script src="lang.js"></script>
+
+</body>
+</html>
