@@ -220,7 +220,7 @@ async function loadCalendar() {
   } catch(e) {
     console.warn('API NAS non raggiungibile, uso dati locali:', e.message);
     ALL_EVENTS = FALLBACK_EVENTS;
-    setStatus('offline', 'NAS non raggiungibile · Dati in cache (ultimo aggiornamento al deploy)');
+    document.getElementById('status-bar') && (document.getElementById('status-bar').style.display = 'none');
   }
 
   document.getElementById('skeleton').style.display = 'none';
@@ -250,7 +250,7 @@ function renderEvents(filtered) {
       </div>`;
     }).join('');
 
-    const imgHTML = ev.imageUrl ? `<img class="event-image" src="${ev.imageUrl}" alt="Locandina">` : '';
+    const imgHTML = ev.imageUrl ? `<img class="event-image" src="${ev.imageUrl}" alt="Locandina" onerror="this.style.display='none'">` : '';
     const genreShort = ev.genre.replace('80-90 ','').replace(' / ','/');
 
     const card = document.createElement('div');
