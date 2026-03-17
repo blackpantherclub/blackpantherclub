@@ -738,7 +738,7 @@
   }
 
   // ========== DANCE TEAM GROUPS ==========
-  let danceGroups = [];
+  let danceGroups = JSON.parse(localStorage.getItem('bpc_danceGroups') || '[]');
   let currentLogo = null;
 
   document.getElementById('groupLogo').addEventListener('change', e => {
@@ -761,19 +761,24 @@
       showToast('⚠️ Nome gruppo richiesto!', 'warning');
       return;
     }
-    danceGroups.push({
+    const group = {
       id: Date.now(),
       name: name,
       subtitle: document.getElementById('groupSubtitleInput').value.trim() || 'DANCE GROUP • BLACK PANTHER',
       logo: currentLogo
-    });
+    };
+    danceGroups.push(group);
+    
+    // SALVA IN LOCALSTORAGE
+    localStorage.setItem('bpc_danceGroups', JSON.stringify(danceGroups));
+    
     document.getElementById('groupNameInput').value = '';
     document.getElementById('groupSubtitleInput').value = 'DANCE GROUP • BLACK PANTHER';
     document.getElementById('groupLogo').value = '';
     document.getElementById('logoPreview').innerHTML = '';
     currentLogo = null;
     updateGroupPreview();
-    showToast('✅ Gruppo aggiunto!', 'success');
+    showToast('✅ Gruppo aggiunto e salvato!', 'success');
   }
 
   function deleteGroup(id) {
