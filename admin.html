@@ -12,16 +12,16 @@
       --gold: #c9952a;
       --gold-light: #e8b84b;
       --violet: #3b00cc;
+      --violet-light: #5a20ee;
       --text: #e8e0d0;
       --text-dim: #8a8070;
       --card: #0d0b18;
       --border: #2a2040;
-      --error: #e74c3c;
       --success: #2ecc71;
+      --error: #e74c3c;
+      --warning: #f39c12;
     }
-    
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     body {
       background: var(--bg);
       color: var(--text);
@@ -29,16 +29,15 @@
       min-height: 100vh;
     }
 
-    /* LOGIN */
-    .login-container {
-      position: fixed;
-      inset: 0;
+    /* LOGIN OVERLAY */
+    #loginOverlay {
+      position: fixed; inset: 0;
       background: radial-gradient(ellipse at center, #0d0b18 0%, #04030a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       z-index: 1000;
+      transition: opacity 0.5s;
     }
+    #loginOverlay.hidden { opacity: 0; pointer-events: none; }
 
     .login-box {
       background: var(--card);
@@ -47,15 +46,23 @@
       padding: 50px 40px;
       width: 380px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+    .login-box::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(201,149,42,0.05), transparent);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer { to { left: 150%; } }
 
     .login-logo {
-      width: 80px;
-      height: 80px;
+      width: 80px; height: 80px;
       margin: 0 auto 20px;
       filter: drop-shadow(0 0 20px rgba(201,149,42,0.5));
     }
-
     .login-title {
       font-family: 'Bebas Neue', cursive;
       font-size: 28px;
@@ -63,7 +70,6 @@
       letter-spacing: 4px;
       margin-bottom: 8px;
     }
-
     .login-sub {
       color: var(--text-dim);
       font-size: 13px;
@@ -71,7 +77,6 @@
       text-transform: uppercase;
       margin-bottom: 35px;
     }
-
     .login-input {
       width: 100%;
       background: rgba(255,255,255,0.05);
@@ -86,17 +91,11 @@
       margin-bottom: 16px;
       transition: border-color 0.3s;
     }
-
-    .login-input:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
-
+    .login-input:focus { outline: none; border-color: var(--gold); }
     .login-btn {
       width: 100%;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border: none;
-      border-radius: 4px;
+      border: none; border-radius: 4px;
       padding: 14px;
       color: #04030a;
       font-family: 'Bebas Neue', cursive;
@@ -104,154 +103,62 @@
       letter-spacing: 4px;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
-      font-weight: bold;
     }
-
-    .login-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(201,149,42,0.4);
-    }
-
-    .login-btn:active {
-      transform: translateY(0);
-    }
-
-    .login-error {
-      color: var(--error);
-      font-size: 13px;
-      margin-top: 12px;
-      display: none;
-    }
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,149,42,0.4); }
+    .login-error { color: var(--error); font-size: 13px; margin-top: 12px; display: none; }
 
     /* ADMIN PANEL */
-    .admin-container {
-      display: none;
-    }
-
-    .admin-container.show {
-      display: block;
-    }
+    #adminPanel { display: none; }
+    #adminPanel.visible { display: block; }
 
     header {
       background: linear-gradient(180deg, #0d0b18 0%, transparent 100%);
       border-bottom: 1px solid var(--border);
       padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       height: 70px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
     }
-
     .header-brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
+      display: flex; align-items: center; gap: 15px;
     }
-
-    .header-logo {
-      width: 40px;
-      height: 40px;
-      filter: drop-shadow(0 0 10px rgba(201,149,42,0.4));
-    }
-
-    .header-title {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 22px;
-      color: var(--gold);
-      letter-spacing: 3px;
-    }
-
-    .header-badge {
-      background: var(--violet);
-      color: white;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      letter-spacing: 1px;
-    }
+    .header-logo { width: 40px; height: 40px; filter: drop-shadow(0 0 10px rgba(201,149,42,0.4)); }
+    .header-title { font-family: 'Bebas Neue', cursive; font-size: 22px; color: var(--gold); letter-spacing: 3px; }
+    .header-badge { background: var(--violet); color: white; font-size: 11px; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; }
 
     .logout-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 13px;
-      padding: 8px 20px;
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-      border-radius: 4px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; padding: 8px 20px; cursor: pointer; letter-spacing: 1px;
+      transition: all 0.2s; border-radius: 4px;
     }
+    .logout-btn:hover { border-color: var(--error); color: var(--error); }
 
-    .logout-btn:hover {
-      border-color: var(--error);
-      color: var(--error);
-    }
-
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+    main { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
     .page-title {
       font-family: 'Bebas Neue', cursive;
-      font-size: 42px;
-      color: var(--gold);
-      letter-spacing: 6px;
-      margin-bottom: 8px;
+      font-size: 42px; color: var(--gold);
+      letter-spacing: 6px; margin-bottom: 8px;
     }
+    .page-sub { color: var(--text-dim); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
 
-    .page-sub {
-      color: var(--text-dim);
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 40px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 30px;
-      border-bottom: 1px solid var(--border);
-    }
-
+    /* TABS */
+    .tabs { display: flex; gap: 4px; margin-bottom: 30px; border-bottom: 1px solid var(--border); }
     .tab {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 18px;
-      letter-spacing: 3px;
-      color: var(--text-dim);
-      padding: 12px 28px;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-      background: none;
-      border-top: none;
-      border-left: none;
-      border-right: none;
+      font-family: 'Bebas Neue', cursive; font-size: 18px; letter-spacing: 3px;
+      color: var(--text-dim); padding: 12px 28px;
+      cursor: pointer; border-bottom: 3px solid transparent;
+      transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none;
     }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-    .tab:hover {
-      color: var(--text);
-    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-    .tab.active {
-      color: var(--gold);
-      border-bottom-color: var(--gold);
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
+    /* UPLOAD ZONE */
     .upload-section {
       background: var(--card);
       border: 1px solid var(--border);
@@ -259,467 +166,648 @@
       padding: 30px;
       margin-bottom: 30px;
     }
-
     .section-title {
       font-family: 'Bebas Neue', cursive;
-      font-size: 22px;
-      color: var(--gold-light);
-      letter-spacing: 3px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 22px; color: var(--gold-light);
+      letter-spacing: 3px; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
     }
+    .section-title span { font-size: 20px; }
 
-    .input-group {
-      flex: 1;
-      min-width: 200px;
-      margin-bottom: 20px;
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 50px 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
     }
-
-    .input-label {
-      font-size: 12px;
-      color: var(--text-dim);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      display: block;
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--gold);
+      background: rgba(201,149,42,0.05);
     }
+    .drop-icon { font-size: 48px; margin-bottom: 15px; }
+    .drop-title { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 3px; color: var(--text); margin-bottom: 8px; }
+    .drop-sub { color: var(--text-dim); font-size: 13px; }
+    .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 
+    /* FOLDER INPUT */
+    .folder-input-row {
+      display: flex; gap: 12px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .input-group { flex: 1; min-width: 200px; }
+    .input-label { font-size: 12px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; display: block; }
     .input-field {
       width: 100%;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 10px 14px;
-      color: var(--text);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 15px;
+      border-radius: 4px; padding: 10px 14px;
+      color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 15px;
       transition: border-color 0.2s;
     }
-
-    .input-field:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
+    .input-field:focus { outline: none; border-color: var(--gold); }
 
     .upload-btn {
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border: none;
-      border-radius: 4px;
-      padding: 10px 24px;
-      color: #04030a;
-      font-family: 'Bebas Neue', cursive;
-      font-size: 14px;
-      letter-spacing: 2px;
-      cursor: pointer;
+      border: none; border-radius: 4px;
+      padding: 10px 28px; color: #04030a;
+      font-family: 'Bebas Neue', cursive; font-size: 17px; letter-spacing: 3px;
+      cursor: pointer; white-space: nowrap;
       transition: transform 0.2s, box-shadow 0.2s;
-      font-weight: bold;
     }
+    .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,149,42,0.4); }
+    .upload-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    .upload-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(201,149,42,0.3);
-    }
-
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .group-card {
-      border: 1px solid rgba(201,149,42,0.2);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .group-image {
-      width: 100%;
-      aspect-ratio: 1;
-      background: linear-gradient(135deg, rgba(59,0,204,0.1) 0%, rgba(0,0,0,0.3) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .group-image img {
-      max-width: 85%;
-      max-height: 85%;
-      object-fit: contain;
-      filter: drop-shadow(0 0 15px rgba(201,149,42,0.3));
-    }
-
-    .group-info {
-      padding: 20px;
-      text-align: center;
-      background: linear-gradient(180deg, rgba(8,5,20,0.6) 0%, rgba(4,3,10,0.9) 100%);
-    }
-
-    .group-name {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 16px;
-      letter-spacing: 2px;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-
-    .group-subtitle {
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: rgba(232,232,240,0.6);
-    }
-
-    .group-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .group-item {
-      background: rgba(201,149,42,0.1);
-      border: 1px solid rgba(201,149,42,0.2);
-      padding: 15px;
-      border-radius: 4px;
-    }
-
-    .group-item h4 {
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-
-    .group-item p {
-      color: var(--text-dim);
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    .delete-btn {
-      background: var(--error);
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 11px;
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 600;
-    }
-
-    .delete-btn:hover {
-      opacity: 0.8;
-    }
-
-    #toast {
-      position: fixed;
-      bottom: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--card);
+    /* QUEUE */
+    .queue { margin-top: 20px; }
+    .queue-item {
+      background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 15px 25px;
-      color: var(--text);
-      font-size: 13px;
-      z-index: 999;
-      transition: bottom 0.3s;
+      border-radius: 6px; padding: 14px 18px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 15px;
+    }
+    .queue-thumb {
+      width: 50px; height: 50px; object-fit: cover;
+      border-radius: 4px; flex-shrink: 0;
+    }
+    .queue-info { flex: 1; }
+    .queue-name { font-weight: 600; font-size: 14px; }
+    .queue-size { color: var(--text-dim); font-size: 12px; }
+    .queue-status { font-size: 12px; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+    .status-pending { background: rgba(243,156,18,0.15); color: var(--warning); }
+    .status-uploading { background: rgba(59,0,204,0.15); color: #8a60ff; }
+    .status-done { background: rgba(46,204,113,0.15); color: var(--success); }
+    .status-error { background: rgba(231,76,60,0.15); color: var(--error); }
+
+    .progress-bar {
+      height: 3px; background: var(--border); border-radius: 2px; margin-top: 6px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--violet-light), var(--gold));
+      border-radius: 2px; transition: width 0.3s; width: 0%;
     }
 
-    #toast.show {
-      bottom: 20px;
+    /* GALLERY GRID */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px; margin-top: 20px;
     }
-
-    #toast.success {
-      border-color: var(--success);
-      color: var(--success);
+    .gallery-item {
+      position: relative; aspect-ratio: 1; overflow: hidden;
+      border-radius: 6px; border: 1px solid var(--border);
+      cursor: pointer; group: true;
     }
-
-    #toast.error {
-      border-color: var(--error);
-      color: var(--error);
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-item-overlay {
+      position: absolute; inset: 0;
+      background: rgba(4,3,10,0.7);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      opacity: 0; transition: opacity 0.2s;
     }
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+    .gallery-item-name { font-size: 11px; color: white; text-align: center; padding: 0 8px; word-break: break-all; }
+    .copy-url-btn, .delete-btn {
+      font-size: 11px; padding: 4px 12px; border-radius: 3px; cursor: pointer; border: none;
+      font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 1px;
+    }
+    .copy-url-btn { background: var(--gold); color: #04030a; }
+    .delete-btn { background: var(--error); color: white; }
 
-    .empty-message {
-      text-align: center;
-      padding: 40px;
-      color: var(--text-dim);
-      font-size: 12px;
+    /* FLAYER GRID */
+    .flayer-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px; margin-top: 20px;
+    }
+    .flayer-item {
+      position: relative; border-radius: 6px; border: 1px solid var(--border); overflow: hidden;
+    }
+    .flayer-item img { width: 100%; display: block; }
+    .flayer-item-overlay {
+      position: absolute; inset: 0;
+      background: rgba(4,3,10,0.75);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .flayer-item:hover .flayer-item-overlay { opacity: 1; }
+
+    /* TOAST */
+    #toast {
+      position: fixed; bottom: 30px; right: 30px;
+      padding: 14px 24px; border-radius: 6px;
+      font-size: 14px; letter-spacing: 1px;
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s; z-index: 9999;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { background: rgba(46,204,113,0.15); border: 1px solid var(--success); color: var(--success); }
+    #toast.error { background: rgba(231,76,60,0.15); border: 1px solid var(--error); color: var(--error); }
+    #toast.info { background: rgba(59,0,204,0.15); border: 1px solid var(--violet-light); color: #8a60ff; }
+
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--text-dim); }
+    .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+    .empty-text { font-size: 14px; letter-spacing: 1px; }
+
+    .stats-row {
+      display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+      padding: 16px 24px; flex: 1; min-width: 120px;
+    }
+    .stat-value { font-family: 'Bebas Neue', cursive; font-size: 32px; color: var(--gold); }
+    .stat-label { font-size: 12px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; }
+
+    @media (max-width: 600px) {
+      header { padding: 0 16px; }
+      main { padding: 20px 12px; }
+      .page-title { font-size: 32px; }
     }
   </style>
 </head>
 <body>
-  <!-- LOGIN -->
-  <div class="login-container" id="loginContainer">
-    <div class="login-box">
-      <img src="favicon.png" alt="BPC" class="login-logo">
-      <h2 class="login-title">BLACK PANTHER</h2>
-      <p class="login-sub">Admin Panel</p>
-      <input id="passInput" type="password" class="login-input" placeholder="PASSWORD" onkeypress="if(event.key==='Enter') doLogin()">
-      <button class="login-btn" onclick="doLogin()">ACCEDI</button>
-      <p class="login-error" id="loginError">Password non valida</p>
-    </div>
-  </div>
 
-  <!-- ADMIN PANEL -->
-  <div class="admin-container" id="adminContainer">
-    <header>
-      <div class="header-brand">
-        <img src="favicon.png" alt="BPC" class="header-logo">
-        <div>
-          <div class="header-title">BLACK PANTHER</div>
-          <div class="header-badge">ADMIN</div>
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <img class="login-logo" src="ChatGPT_Image_18_dic_2025_20_04_20-Photoroom.png" alt="BPC" onerror="this.style.display='none'">
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">Black Panther Club</div>
+    <input type="password" class="login-input" id="pwdInput" placeholder="••••••••" autocomplete="current-password">
+    <button class="login-btn" onclick="checkLogin()">ACCEDI</button>
+    <div class="login-error" id="loginError">Password errata. Riprova.</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <header>
+    <div class="header-brand">
+      <img class="header-logo" src="ChatGPT_Image_18_dic_2025_20_04_20-Photoroom.png" alt="BPC" onerror="this.style.display='none'">
+      <div class="header-title">Black Panther</div>
+      <div class="header-badge">ADMIN</div>
+    </div>
+    <button class="logout-btn" onclick="logout()">⎋ LOGOUT</button>
+  </header>
+
+  <main>
+    <div class="page-title">PANNELLO ADMIN</div>
+    <div class="page-sub">Gestisci flayer ed immagini gallery</div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="statFlayer">—</div>
+        <div class="stat-label">Flayer caricati</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statGallery">—</div>
+        <div class="stat-label">Foto gallery</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('flayer', this)">🎪 FLAYER</button>
+      <button class="tab" onclick="switchTab('gallery', this)">📸 GALLERY</button>
+      <button class="tab" onclick="switchTab('danceTeam', this)">💃 DANCE TEAM</button>
+    </div>
+
+    <!-- TAB FLAYER -->
+    <div class="tab-content active" id="tab-flayer">
+      <div class="upload-section">
+        <div class="section-title"><span>🎪</span> Carica Nuovi Flayer</div>
+        <div class="drop-zone" id="dropFlayer">
+          <input type="file" id="fileFlayer" accept="image/*" multiple onchange="handleFiles(this.files,'flayer')">
+          <div class="drop-icon">🖼️</div>
+          <div class="drop-title">TRASCINA I FLAYER QUI</div>
+          <div class="drop-sub">JPG, PNG, WEBP — max 10MB ciascuno</div>
+        </div>
+        <div class="queue" id="queueFlayer"></div>
+      </div>
+
+      <div class="upload-section">
+        <div class="section-title"><span>📋</span> Flayer Pubblicati</div>
+        <div class="flayer-grid" id="gridFlayer">
+          <div class="empty-state"><div class="empty-icon">🎪</div><div class="empty-text">Nessun flayer caricato</div></div>
         </div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">🚪 LOGOUT</button>
-    </header>
+    </div>
 
-    <main>
-      <h1 class="page-title">ADMIN PANEL</h1>
-      <p class="page-sub">Gestisci i gruppi di danza</p>
-
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab(event, 'danceTeam')">💃 DANCE TEAM</button>
+    <!-- TAB GALLERY -->
+    <div class="tab-content" id="tab-gallery">
+      <div class="upload-section">
+        <div class="section-title"><span>📸</span> Carica Foto Gallery</div>
+        <div class="folder-input-row">
+          <div class="input-group">
+            <label class="input-label">Cartella / Album</label>
+            <input type="text" class="input-field" id="albumName" placeholder="es: party-2026-03, eventi" value="gallery">
+          </div>
+        </div>
+        <div class="drop-zone" id="dropGallery">
+          <input type="file" id="fileGallery" accept="image/*" multiple onchange="handleFiles(this.files,'gallery')">
+          <div class="drop-icon">📷</div>
+          <div class="drop-title">TRASCINA LE FOTO QUI</div>
+          <div class="drop-sub">JPG, PNG, WEBP — selezione multipla supportata</div>
+        </div>
+        <div class="queue" id="queueGallery"></div>
       </div>
 
-      <!-- DANCE TEAM TAB -->
-      <div id="danceTeam" class="tab-content active">
-        <div class="upload-section">
-          <h3 class="section-title"><span>💃</span>AGGIUNGI GRUPPO</h3>
-          
+      <div class="upload-section">
+        <div class="section-title"><span>🖼️</span> Foto in Gallery</div>
+        <div class="gallery-grid" id="gridGallery">
+          <div class="empty-state"><div class="empty-icon">📸</div><div class="empty-text">Nessuna foto caricata</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB DANCE TEAM -->
+    <div class="tab-content" id="tab-danceTeam">
+      <div class="upload-section">
+        <div class="section-title"><span>💃</span> Aggiungi Gruppo di Danza</div>
+        <div class="folder-input-row">
           <div class="input-group">
             <label class="input-label">Nome Gruppo</label>
-            <input id="groupNameInput" type="text" class="input-field" placeholder="es. Urban Crew">
+            <input type="text" class="input-field" id="groupNameInput" placeholder="es. Urban Crew">
           </div>
-
           <div class="input-group">
             <label class="input-label">Sottotitolo</label>
-            <input id="groupSubtitleInput" type="text" class="input-field" value="DANCE GROUP • BLACK PANTHER">
+            <input type="text" class="input-field" id="groupSubtitleInput" value="DANCE GROUP • BLACK PANTHER">
           </div>
-
+        </div>
+        <div class="folder-input-row">
           <div class="input-group">
             <label class="input-label">Logo / Immagine</label>
-            <input id="groupLogo" type="file" accept="image/*" class="input-field">
+            <input type="file" accept="image/*" class="input-field" id="groupLogo">
             <div id="logoPreview" style="margin-top: 15px;"></div>
           </div>
-
-          <button class="upload-btn" onclick="addDanceGroup()">✅ AGGIUNGI GRUPPO</button>
         </div>
-
-        <h3 class="section-title"><span>👥</span>ANTEPRIMA</h3>
-        <div id="previewContainer" class="preview-grid"></div>
-
-        <h3 class="section-title"><span>📝</span>GRUPPI CREATI</h3>
-        <div id="danceGroupsList" class="group-list"></div>
+        <button class="upload-btn" onclick="addDanceGroup()" style="width: 100%; margin-top: 10px;">✅ AGGIUNGI GRUPPO</button>
       </div>
-    </main>
-  </div>
 
-  <div id="toast"></div>
+      <div class="upload-section">
+        <div class="section-title"><span>👥</span> Gruppi Creati</div>
+        <div class="gallery-grid" id="gridDanceTeam">
+          <div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">Nessun gruppo creato</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
 
-  <!-- FIREBASE SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+<div id="toast"></div>
 
-  <script>
-    // CONFIGURAZIONE FIREBASE
-    const firebaseConfig = {
-      apiKey: "AIzaSyA8WyXwKnZHBpIoQfgWSGf7WgtivhoJEDk",
-      authDomain: "black-panther-ced90.firebaseapp.com",
-      databaseURL: "https://black-panther-ced90-default-rtdb.europe-west1.firebaseio.com",
-      projectId: "black-panther-ced90",
-      storageBucket: "black-panther-ced90.firebasestorage.app",
-      messagingSenderId: "107530122233336",
-      appId: "1:107530122233336:web:09d39bf6a6f9784545ea25",
-      measurementId: "G-LY0QPYOVPW"
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+
+<script>
+  // CONFIG CLOUDINARY
+  const CLOUD_NAME = 'dp9pcg938';
+  const UPLOAD_PRESET = 'blackpanther';
+  const ADMIN_PASSWORD = 'S1m0n3-05-08';
+
+  // ========== FIREBASE CONFIG ==========
+  const firebaseConfig = {
+    apiKey: "AIzaSyA8WyXwKnZHBpIoQfgWSGf7WgtivhoJEDk",
+    authDomain: "black-panther-ced90.firebaseapp.com",
+    databaseURL: "https://black-panther-ced90-default-rtdb.europe-west1.firebaseio.com",
+    projectId: "black-panther-ced90",
+    storageBucket: "black-panther-ced90.firebasestorage.app",
+    messagingSenderId: "107530122233336",
+    appId: "1:107530122233336:web:09d39bf6a6f9784545ea25",
+    measurementId: "G-LY0QPYOVPW"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let currentLogo = null;
+
+  // LOGIN
+  function checkLogin() {
+    const pwd = document.getElementById('pwdInput').value;
+    if (pwd === ADMIN_PASSWORD) {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('adminPanel').classList.add('visible');
+      setTimeout(() => { document.getElementById('loginOverlay').style.display = 'none'; }, 500);
+      loadImages();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('pwdInput').value = '';
+      document.getElementById('pwdInput').focus();
+    }
+  }
+
+  document.getElementById('pwdInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkLogin();
+  });
+
+  function logout() {
+    document.getElementById('loginOverlay').style.display = 'flex';
+    document.getElementById('loginOverlay').style.opacity = '1';
+    document.getElementById('loginOverlay').classList.remove('hidden');
+    document.getElementById('adminPanel').classList.remove('visible');
+    document.getElementById('pwdInput').value = '';
+  }
+
+  // TABS
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // DRAG & DROP
+  ['dropFlayer', 'dropGallery'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('dragover'); });
+    el.addEventListener('dragleave', () => el.classList.remove('dragover'));
+    el.addEventListener('drop', e => {
+      e.preventDefault(); el.classList.remove('dragover');
+      const type = id === 'dropFlayer' ? 'flayer' : 'gallery';
+      handleFiles(e.dataTransfer.files, type);
+    });
+  });
+
+  // HANDLE FILES
+  async function handleFiles(files, type) {
+    const queue = document.getElementById('queue' + capitalize(type));
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) continue;
+      const id = 'item-' + Date.now() + Math.random().toString(36).slice(2);
+      const thumb = URL.createObjectURL(file);
+      const item = document.createElement('div');
+      item.className = 'queue-item'; item.id = id;
+      item.innerHTML = `
+        <img class="queue-thumb" src="${thumb}">
+        <div class="queue-info">
+          <div class="queue-name">${file.name}</div>
+          <div class="queue-size">${formatSize(file.size)}</div>
+          <div class="progress-bar"><div class="progress-fill" id="prog-${id}"></div></div>
+        </div>
+        <div class="queue-status status-pending" id="status-${id}">IN ATTESA</div>
+      `;
+      queue.appendChild(item);
+      await uploadToCloudinary(file, type, id);
+    }
+  }
+
+  async function uploadToCloudinary(file, type, id) {
+    setStatus(id, 'uploading', 'CARICAMENTO...');
+    const folder = type === 'gallery'
+      ? (document.getElementById('albumName')?.value || 'gallery')
+      : 'flayer';
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+    formData.append('folder', 'blackpanther/' + folder);
+
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener('progress', e => {
+        if (e.lengthComputable) {
+          const pct = Math.round(e.loaded / e.total * 100);
+          document.getElementById('prog-' + id).style.width = pct + '%';
+        }
+      });
+
+      const result = await new Promise((resolve, reject) => {
+        xhr.onload = () => {
+          if (xhr.status === 200) resolve(JSON.parse(xhr.responseText));
+          else reject(new Error('Upload failed: ' + xhr.status));
+        };
+        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`);
+        xhr.send(formData);
+      });
+
+      document.getElementById('prog-' + id).style.width = '100%';
+      setStatus(id, 'done', '✓ CARICATO');
+      saveImageRef(type, { url: result.secure_url, name: file.name, public_id: result.public_id, created: Date.now() });
+      loadImages();
+      showToast('✓ ' + file.name + ' caricato!', 'success');
+      if (type === 'flayer') {
+        setTimeout(() => { window.location.href = 'flayer.html'; }, 1500);
+      }
+    } catch (err) {
+      setStatus(id, 'error', '✗ ERRORE');
+      showToast('Errore upload: ' + err.message, 'error');
+    }
+  }
+
+  // LOCAL STORAGE per riferimenti immagini
+  function saveImageRef(type, data) {
+    const key = 'bpc_' + type;
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    list.unshift(data);
+    localStorage.setItem(key, JSON.stringify(list));
+  }
+
+  function loadImages() {
+    renderGrid('flayer');
+    renderGrid('gallery');
+    updateStats();
+  }
+
+  function renderGrid(type) {
+    const key = 'bpc_' + type;
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    const grid = document.getElementById('grid' + capitalize(type));
+
+    if (list.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><div class="empty-icon">${type === 'flayer' ? '🎪' : '📸'}</div><div class="empty-text">Nessuna immagine caricata</div></div>`;
+      return;
+    }
+
+    if (type === 'flayer') {
+      grid.innerHTML = list.map(img => `
+        <div class="flayer-item">
+          <img src="${img.url}" alt="${img.name}" loading="lazy">
+          <div class="flayer-item-overlay">
+            <div class="gallery-item-name">${img.name}</div>
+            <button class="copy-url-btn" onclick="copyUrl('${img.url}')">📋 COPIA URL</button>
+            <button class="delete-btn" onclick="deleteImage('${type}','${img.public_id}')">🗑️ RIMUOVI</button>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      grid.innerHTML = list.map(img => `
+        <div class="gallery-item">
+          <img src="${img.url}" alt="${img.name}" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-name">${img.name}</div>
+            <button class="copy-url-btn" onclick="copyUrl('${img.url}')">📋 URL</button>
+            <button class="delete-btn" onclick="deleteImage('${type}','${img.public_id}')">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  function deleteImage(type, publicId) {
+    if (!confirm('Rimuovere questa immagine dalla lista?')) return;
+    const key = 'bpc_' + type;
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    const newList = list.filter(i => i.public_id !== publicId);
+    localStorage.setItem(key, JSON.stringify(newList));
+    renderGrid(type);
+    updateStats();
+    showToast('Immagine rimossa dalla lista', 'info');
+  }
+
+  function updateStats() {
+    const flayer = JSON.parse(localStorage.getItem('bpc_flayer') || '[]');
+    const gallery = JSON.parse(localStorage.getItem('bpc_gallery') || '[]');
+    document.getElementById('statFlayer').textContent = flayer.length;
+    document.getElementById('statGallery').textContent = gallery.length;
+  }
+
+  function copyUrl(url) {
+    navigator.clipboard.writeText(url).then(() => showToast('URL copiato!', 'success'));
+  }
+
+  // UTILS
+  function setStatus(id, cls, text) {
+    const el = document.getElementById('status-' + id);
+    if (!el) return;
+    el.className = 'queue-status status-' + cls;
+    el.textContent = text;
+  }
+
+  function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1024/1024).toFixed(1) + ' MB';
+  }
+
+  function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show ' + type;
+    setTimeout(() => { t.className = ''; }, 3500);
+  }
+
+  // ========== DANCE TEAM FUNCTIONS ==========
+  document.getElementById('groupLogo').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = evt => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        let width = img.width;
+        let height = img.height;
+        const maxSize = 180;
+        
+        if (width > height) {
+          if (width > maxSize) {
+            height = Math.round((height * maxSize) / width);
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = Math.round((width * maxSize) / height);
+            height = maxSize;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        currentLogo = canvas.toDataURL('image/png');
+        document.getElementById('logoPreview').innerHTML = `<img src="${currentLogo}" style="width: 150px; height: 150px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border);">`;
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function addDanceGroup() {
+    const name = document.getElementById('groupNameInput').value.trim();
+    if (!name) {
+      showToast('⚠️ Nome gruppo richiesto!', 'warning');
+      return;
+    }
+
+    const group = {
+      name: name,
+      subtitle: document.getElementById('groupSubtitleInput').value.trim() || 'DANCE GROUP • BLACK PANTHER',
+      logo: currentLogo || null,
+      createdAt: new Date().toISOString()
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    const ADMIN_PASSWORD = 'S1m0n3-05-08';
-    let currentLogo = null;
-
-    // LOGIN FUNCTIONS
-    function doLogin() {
-      const pass = document.getElementById('passInput').value;
-      console.log('Password inserita:', pass);
-      console.log('Password attesa:', ADMIN_PASSWORD);
-      console.log('Match:', pass === ADMIN_PASSWORD);
-
-      if (pass === ADMIN_PASSWORD) {
-        document.getElementById('loginContainer').style.display = 'none';
-        document.getElementById('adminContainer').classList.add('show');
-        sessionStorage.setItem('adminLoggedIn', 'true');
-        loadGroups();
-        showToast('✅ Accesso eseguito!', 'success');
+    db.ref('danceGroups').push(group, (error) => {
+      if (error) {
+        showToast('❌ Errore nel salvataggio', 'error');
+        console.error(error);
       } else {
-        document.getElementById('loginError').style.display = 'block';
-        document.getElementById('passInput').value = '';
-        showToast('❌ Password non valida', 'error');
-      }
-    }
-
-    function doLogout() {
-      sessionStorage.removeItem('adminLoggedIn');
-      document.getElementById('loginContainer').style.display = 'flex';
-      document.getElementById('adminContainer').classList.remove('show');
-      document.getElementById('passInput').value = '';
-      showToast('👋 Logout eseguito', 'info');
-    }
-
-    // CHECK IF ALREADY LOGGED IN
-    window.addEventListener('load', () => {
-      if (sessionStorage.getItem('adminLoggedIn')) {
-        document.getElementById('loginContainer').style.display = 'none';
-        document.getElementById('adminContainer').classList.add('show');
-        loadGroups();
+        document.getElementById('groupNameInput').value = '';
+        document.getElementById('groupSubtitleInput').value = 'DANCE GROUP • BLACK PANTHER';
+        document.getElementById('groupLogo').value = '';
+        document.getElementById('logoPreview').innerHTML = '';
+        currentLogo = null;
+        loadDanceTeamGroups();
+        showToast('✅ Gruppo aggiunto!', 'success');
       }
     });
+  }
 
-    // TAB NAVIGATION
-    function switchTab(event, tabName) {
-      document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
-      document.getElementById(tabName).classList.add('active');
-      event.target.classList.add('active');
-    }
+  function loadDanceTeamGroups() {
+    db.ref('danceGroups').on('value', (snapshot) => {
+      const groups = snapshot.val();
+      const grid = document.getElementById('gridDanceTeam');
 
-    // TOAST NOTIFICATIONS
-    function showToast(msg, type = 'info') {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.className = 'show ' + type;
-      setTimeout(() => { t.className = ''; }, 3500);
-    }
-
-    // LOGO UPLOAD
-    document.getElementById('groupLogo').addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = evt => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          let width = img.width;
-          let height = img.height;
-          const maxSize = 180;
-          
-          if (width > height) {
-            if (width > maxSize) {
-              height = Math.round((height * maxSize) / width);
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width = Math.round((width * maxSize) / height);
-              height = maxSize;
-            }
-          }
-          
-          canvas.width = width;
-          canvas.height = height;
-          ctx.drawImage(img, 0, 0, width, height);
-          currentLogo = canvas.toDataURL('image/png');
-          document.getElementById('logoPreview').innerHTML = `<img src="${currentLogo}" style="width: 150px; height: 150px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border);">`;
-        };
-        img.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // ADD DANCE GROUP
-    function addDanceGroup() {
-      const name = document.getElementById('groupNameInput').value.trim();
-      
-      if (!name) {
-        showToast('⚠️ Nome gruppo richiesto!', 'error');
+      if (!groups || Object.keys(groups).length === 0) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><div class="empty-icon">👥</div><div class="empty-text">Nessun gruppo creato</div></div>';
         return;
       }
 
-      const group = {
-        name: name,
-        subtitle: document.getElementById('groupSubtitleInput').value.trim() || 'DANCE GROUP • BLACK PANTHER',
-        logo: currentLogo || null,
-        createdAt: new Date().toISOString()
-      };
+      grid.innerHTML = Object.entries(groups).map(([id, g]) => `
+        <div class="gallery-item">
+          <div style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(59,0,204,0.1) 0%, rgba(0,0,0,0.3) 100%); display: flex; align-items: center; justify-content: center;">
+            ${g.logo ? `<img src="${g.logo}" alt="${g.name}" style="max-width: 80%; max-height: 80%; object-fit: contain;">` : '<div style="font-size: 40px;">💃</div>'}
+          </div>
+          <div class="gallery-item-overlay">
+            <div style="text-align: center;">
+              <div class="gallery-item-name" style="margin-bottom: 8px;"><strong>${g.name}</strong></div>
+              <div class="gallery-item-name" style="font-size: 10px;">${g.subtitle}</div>
+              <button class="delete-btn" onclick="deleteDanceGroup('${id}')" style="margin-top: 8px;">🗑️ ELIMINA</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    });
+  }
 
-      db.ref('danceGroups').push(group, (error) => {
+  function deleteDanceGroup(id) {
+    if (confirm('Eliminare questo gruppo?')) {
+      db.ref('danceGroups/' + id).remove((error) => {
         if (error) {
-          showToast('❌ Errore nel salvataggio: ' + error.message, 'error');
-          console.error(error);
+          showToast('❌ Errore nell\'eliminazione', 'error');
         } else {
-          document.getElementById('groupNameInput').value = '';
-          document.getElementById('groupSubtitleInput').value = 'DANCE GROUP • BLACK PANTHER';
-          document.getElementById('groupLogo').value = '';
-          document.getElementById('logoPreview').innerHTML = '';
-          currentLogo = null;
-          loadGroups();
-          showToast('✅ Gruppo aggiunto!', 'success');
+          loadDanceTeamGroups();
+          showToast('🗑️ Gruppo eliminato', 'info');
         }
       });
     }
+  }
 
-    // DELETE GROUP
-    function deleteGroup(groupId) {
-      if (confirm('Elimina questo gruppo?')) {
-        db.ref('danceGroups/' + groupId).remove((error) => {
-          if (error) {
-            showToast('❌ Errore: ' + error.message, 'error');
-          } else {
-            loadGroups();
-            showToast('🗑️ Gruppo eliminato', 'error');
-          }
-        });
-      }
-    }
+  // Carica i gruppi quando accedi
+  const originalLoadImages = loadImages;
+  loadImages = function() {
+    originalLoadImages();
+    loadDanceTeamGroups();
+  };
 
-    // LOAD GROUPS FROM FIREBASE
-    function loadGroups() {
-      db.ref('danceGroups').on('value', (snapshot) => {
-        const groups = snapshot.val();
-        updatePreview(groups);
-      }, (error) => {
-        console.error('Errore Firebase:', error);
-        showToast('❌ Errore di connessione: ' + error.message, 'error');
-      });
-    }
-
-    // UPDATE PREVIEW
-    function updatePreview(groups) {
-      const previewContainer = document.getElementById('previewContainer');
-      const listContainer = document.getElementById('danceGroupsList');
-
-      if (!groups || Object.keys(groups).length === 0) {
-        previewContainer.innerHTML = '<div class="empty-message" style="grid-column: 1/-1;">Aggiungi il primo gruppo...</div>';
-        listContainer.innerHTML = '<div class="empty-message">Nessun gruppo creato</div>';
-        return;
-      }
-
-      previewContainer.innerHTML = Object.entries(groups).map(([id, g]) => `
-        <div class="group-card">
-          <div class="group-image">
-            ${g.logo ? `<img src="${g.logo}" alt="${g.name}">` : ''}
-          </div>
-          <div class="group-info">
-            <h3 class="group-name">${g.name}</h3>
-            <p class="group-subtitle">${g.subtitle}</p>
-          </div>
-        </div>
-      `).join('');
-
-      listContainer.innerHTML = Object.entries(groups).map(([id, g]) => `
-        <div class="group-item">
-          <h4>${g.name}</h4>
-          <p>${g.subtitle}</p>
-          ${g.logo ? `<div style="width: 80px; height: 80px; background-image: url('${g.logo}'); background-size: contain; background-repeat: no-repeat; background-position: center; margin-bottom: 12px; border: 1px solid rgba(201,149,42,0.2); border-radius: 3px;"></div>` : ''}
-          <button class="delete-btn" onclick="deleteGroup('${id}')">🗑️ ELIMINA</button>
-        </div>
-      `).join('');
-    }
-  </script>
+</script>
 </body>
 </html>
