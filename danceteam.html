@@ -24,7 +24,7 @@
       overflow-x: hidden;
     }
     #canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-    main { position: relative; z-index: 1; }
+    main { position: relative; z-index: 1; padding-top: 80px; }
     .hero {
       min-height: 60vh;
       display: flex;
@@ -133,6 +133,22 @@
 </head>
 <body>
   <canvas id="canvas"></canvas>
+
+  <nav style="position:fixed; top:0; width:100%; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:16px 48px; background:linear-gradient(to bottom,rgba(4,3,10,.97) 80%,transparent); border-bottom:1px solid rgba(201,149,42,.15);">
+    <a href="index.html" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+      <img src="favicon.png" alt="BPC" style="width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(201,149,42,.6));">
+      <span style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:.2em; color:var(--gold); text-shadow:0 0 20px rgba(201,149,42,.5);">BLACK PANTHER</span>
+    </a>
+    <ul style="display:flex; gap:14px; list-style:none;">
+      <li><a href="index.html" style="font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s;">Home</a></li>
+      <li><a href="calendario.html" style="font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s;">Calendario</a></li>
+      <li><a href="gallery.html" style="font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s;">Gallery</a></li>
+      <li><a href="djs.html" style="font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s;">DJ</a></li>
+      <li><a href="danceteam.html" style="font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); text-decoration:none; font-weight:600; border-bottom:2px solid var(--gold); padding-bottom:12px;">Dance Team</a></li>
+      <li><a href="flayer.html" style="font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s;">Flayer</a></li>
+      <li><a href="admin.html" title="Admin" style="font-size:.85rem; letter-spacing:.12em; color:var(--white); text-decoration:none;">⚙</a></li>
+    </ul>
+  </nav>
 
   <main>
     <section class="hero">

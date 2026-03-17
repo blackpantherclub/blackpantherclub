@@ -741,8 +741,37 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = evt => {
-      currentLogo = evt.target.result;
-      document.getElementById('logoPreview').innerHTML = `<img src="${evt.target.result}" style="width:150px; height:150px; object-fit:contain; border-radius:4px; border:1px solid var(--border);">`;
+      const img = new Image();
+      img.onload = () => {
+        // Ridimensiona l'immagine a max 180x180
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = img.width;
+        let height = img.height;
+        const maxSize = 180;
+        
+        if (width > height) {
+          if (width > maxSize) {
+            height = Math.round((height * maxSize) / width);
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = Math.round((width * maxSize) / height);
+            height = maxSize;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Salva l'immagine ridimensionata
+        currentLogo = canvas.toDataURL('image/png');
+        document.getElementById('logoPreview').innerHTML = `<img src="${currentLogo}" style="width:150px; height:150px; object-fit:contain; border-radius:4px; border:1px solid var(--border);">`;
+      };
+      img.src = evt.target.result;
     };
     reader.readAsDataURL(file);
   });
