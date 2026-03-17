@@ -36,7 +36,7 @@
     .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:48px; }
     .team-card { background:var(--panel); border:1px solid rgba(201,149,42,.2); overflow:hidden; transition:all .3s; backdrop-filter:blur(10px); position:relative; group:; }
     .team-card:hover { border-color:var(--gold); transform:translateY(-8px); box-shadow:0 0 40px rgba(201,149,42,.3); }
-    .team-card img { width:100%; height:280px; object-fit:cover; display:block; transition:transform .3s; }
+    .team-card img { width:160px; height:160px; object-fit:cover; display:block; transition:transform .3s; margin:20px auto; }
     .team-card:hover img { transform:scale(1.05); }
     .team-card h3 { padding:24px; font-size:1.3rem; color:var(--white); font-weight:600; letter-spacing:.05em; }
     .fade-in { opacity:0; transform:translateY(28px); }
@@ -121,7 +121,14 @@
         <img src="loghi/polecats.png" alt="Polecats Dance Team">
         <h3>Polecats</h3>
       </div>
-    </div>
+      <div class="team-card fade-in">
+        <img src="loghi/panthrea-euphoria.png" alt="Panthrea Euphoria Dance">
+        <h3>Panthrea Euphoria</h3>
+      </div>
+      <div class="team-card fade-in">
+        <img src="loghi/lous-band.png" alt="Lou's Band">
+        <h3>Lou's Band</h3>
+      </div>
   </section>
 </main>
 

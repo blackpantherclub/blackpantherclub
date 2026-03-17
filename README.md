@@ -12,7 +12,7 @@ Website showcasing the elite dance teams of Black Panther Club's 3DX Virtual Wor
 
 ## 🎭 Dance Teams
 
-Our platform showcases 7 exceptional dance teams:
+Our platform showcases 9 exceptional dance teams:
 
 1. **R|D** - Diamond-themed luxury performance team
 2. **Sun & Moon Booties** - Vibrant day and night energy
@@ -21,6 +21,8 @@ Our platform showcases 7 exceptional dance teams:
 5. **Sugar & Spice OT** - Heart-centered emotional performers
 6. **[ragebaiti]** - Experimental glitch-style performers
 7. **Polecats** - Silver and sophisticated pole dancers
+8. **Panthrea Euphoria** - Passionate panther-themed dance collective
+9. **Lou's Band** - Romantic heart-pulsing dance sensation
 
 ## 📁 Project Structure
 
@@ -34,7 +36,9 @@ Our platform showcases 7 exceptional dance teams:
 │   ├── lemaire-dancers.png
 │   ├── sugar-spice.png
 │   ├── ragebaiti.png
-│   └── polecats.png
+│   ├── polecats.png
+│   ├── panthrea-euphoria.png
+│   └── lous-band.png
 ├── lang.js              # Language support (if available)
 ├── favicon.ico          # Website icon
 ├── favicon.png          # Favicon PNG version
