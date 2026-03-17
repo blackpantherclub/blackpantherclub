@@ -63,7 +63,7 @@
     }
     .groups-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 30px;
     }
     .group-card {
@@ -72,6 +72,8 @@
       overflow: hidden;
       transition: all 0.3s ease;
       cursor: pointer;
+      max-width: 180px;
+      margin: 0 auto;
     }
     .group-card:hover {
       border-color: rgba(201,149,42,0.6);
@@ -79,7 +81,8 @@
       box-shadow: 0 20px 50px rgba(201,149,42,0.2);
     }
     .group-image {
-      aspect-ratio: 1;
+      width: 180px;
+      height: 180px;
       background: linear-gradient(135deg, rgba(59,0,204,0.1) 0%, rgba(0,0,0,0.3) 100%);
       display: flex;
       align-items: center;
@@ -87,26 +90,26 @@
       overflow: hidden;
     }
     .group-image img {
-      max-width: 85%;
-      max-height: 85%;
+      max-width: 90%;
+      max-height: 90%;
       object-fit: contain;
       filter: drop-shadow(0 0 15px rgba(201,149,42,0.3));
     }
     .group-info {
-      padding: 25px;
+      padding: 15px;
       text-align: center;
       background: linear-gradient(180deg, rgba(8,5,20,0.6) 0%, rgba(4,3,10,0.9) 100%);
     }
     .group-name {
       font-family: 'Bebas Neue', cursive;
-      font-size: 1.8rem;
-      letter-spacing: 3px;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
       color: var(--gold);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .group-subtitle {
-      font-size: 0.85rem;
-      letter-spacing: 2px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
       color: rgba(232,232,240,0.6);
       text-transform: uppercase;
     }
