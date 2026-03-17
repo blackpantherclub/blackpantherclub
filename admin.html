@@ -423,65 +423,48 @@
       </div>
     </div>
 
-    <!-- TAB DANCE TEAM NUOVO -->
+    <!-- TAB DANCE TEAM -->
     <div class="tab-content" id="tab-danceteam">
       <div class="upload-section">
-        <div class="section-title"><span>👥</span> Gestisci Gruppi di Ballo</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-          <!-- PANNELLO SINISTRO - EDITOR -->
+        <div class="section-title"><span>👥</span> Crea Nuovo Gruppo di Ballo</div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+          <!-- EDITOR SINISTRO -->
           <div>
-            <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:20px; border-radius:8px;">
-              <h3 style="color:var(--gold); margin-bottom:15px; font-size:18px; letter-spacing:2px;">📋 INFO GRUPPO</h3>
-              <div style="margin-bottom:15px;">
-                <label class="input-label">Nome del Gruppo</label>
-                <input type="text" id="groupName" class="input-field" placeholder="POLECATS" value="POLECATS">
-              </div>
-              <div style="margin-bottom:15px;">
-                <label class="input-label">Sottotitolo</label>
-                <input type="text" id="groupSubtitle" class="input-field" placeholder="Elite Dance Team • Black Panther" value="Elite Dance Team">
-              </div>
-
-              <h3 style="color:var(--gold); margin:30px 0 15px; font-size:18px; letter-spacing:2px;">👤 AGGIUNGI BALLERINO</h3>
-              <div style="margin-bottom:15px;">
-                <label class="input-label">Nome</label>
-                <input type="text" id="dancerName" class="input-field" placeholder="AMBER">
-              </div>
-              <div style="margin-bottom:15px;">
-                <label class="input-label">Ruolo</label>
-                <input type="text" id="dancerRole" class="input-field" placeholder="Lead Dancer">
-              </div>
-              <div style="margin-bottom:15px;">
-                <label class="input-label">Bio</label>
-                <textarea id="dancerBio" class="input-field" placeholder="High energy performer..." style="min-height:70px; resize:vertical;"></textarea>
-              </div>
-              <div style="margin-bottom:15px;">
-                <label class="input-label">Foto</label>
-                <input type="file" id="dancerImage" accept="image/*" style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:4px; color:var(--text); cursor:pointer;">
-              </div>
-              <div id="imagePreviewSmall" style="margin-bottom:15px;"></div>
-              <button class="upload-btn" onclick="addDancer()" style="width:100%; margin-bottom:15px;">➕ AGGIUNGI</button>
-
-              <h3 style="color:var(--gold); margin:15px 0 10px; font-size:14px;">I TUOI BALLERINI</h3>
-              <div id="dancersList" style="max-height:300px; overflow-y:auto; font-size:12px;"></div>
+            <div class="input-group">
+              <label class="input-label">Logo del Gruppo</label>
+              <input type="file" id="groupLogo" accept="image/*" style="width:100%; padding:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:4px; color:var(--text); cursor:pointer; font-family:'Rajdhani';">
+              <div id="logoPreview" style="margin-top:15px;"></div>
             </div>
+
+            <div class="input-group" style="margin-top:20px;">
+              <label class="input-label">Nome del Gruppo *</label>
+              <input type="text" id="groupNameInput" class="input-field" placeholder="Es: POLECATS, RIBBON & BOWS..." value="DANCE TEAM">
+            </div>
+
+            <div class="input-group" style="margin-top:20px;">
+              <label class="input-label">Sottotitolo</label>
+              <input type="text" id="groupSubtitleInput" class="input-field" placeholder="Es: DANCE GROUP • BLACK PANTHER" value="DANCE GROUP • BLACK PANTHER">
+            </div>
+
+            <button class="upload-btn" onclick="addDanceGroup()" style="width:100%; margin-top:20px;">➕ AGGIUNGI GRUPPO</button>
+
+            <h3 style="margin-top:30px; color:var(--gold); font-size:16px; letter-spacing:2px;">I TUOI GRUPPI</h3>
+            <div id="danceGroupsList" style="margin-top:15px;"></div>
           </div>
 
-          <!-- PANNELLO DESTRO - PREVIEW -->
+          <!-- PREVIEW DESTRO -->
           <div>
-            <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:20px; border-radius:8px;">
-              <h1 id="previewTitle" style="font-size:1.8rem; color:var(--gold); letter-spacing:2px; margin-bottom:8px; font-family:'Bebas Neue';">POLECATS</h1>
-              <p id="previewSubtitle" style="color:var(--text-dim); margin-bottom:20px; font-size:12px;">Elite Dance Team</p>
-              
-              <h3 style="color:var(--gold-light); margin-bottom:12px; font-size:13px;">PREVIEW:</h3>
-              <div id="previewGrid" style="display:grid; grid-template-columns:1fr; gap:12px; max-height:400px; overflow-y:auto;">
-                <p style="color:var(--text-dim); text-align:center; padding:20px; font-size:12px;">Aggiungi ballerini...</p>
+            <h3 style="color:var(--gold); font-size:16px; letter-spacing:2px; margin-bottom:20px;">📦 PREVIEW PAGINA</h3>
+            <div id="previewContainer" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-height:500px; overflow-y:auto;">
+              <div style="text-align:center; padding:40px; color:var(--text-dim); font-size:12px;">
+                Aggiungi il primo gruppo per vedere l'anteprima...
               </div>
+            </div>
 
-              <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border);">
-                <h3 style="color:var(--gold-light); margin-bottom:10px; font-size:13px;">📥 DOWNLOAD</h3>
-                <button class="upload-btn" onclick="downloadDanceTeamHTML()" style="width:100%; margin-bottom:8px; padding:10px;">HTML</button>
-                <button class="upload-btn" onclick="downloadDanceTeamJSON()" style="width:100%; padding:10px; background:linear-gradient(135deg, var(--violet), var(--violet-light));">JSON</button>
-              </div>
+            <div style="margin-top:30px; padding-top:20px; border-top:1px solid var(--border);">
+              <h3 style="color:var(--gold); font-size:14px; letter-spacing:2px; margin-bottom:15px;">📥 SCARICA</h3>
+              <button class="upload-btn" onclick="downloadDanceTeamPage()" style="width:100%;">⬇️ SCARICA HTML</button>
             </div>
           </div>
         </div>
@@ -754,101 +737,249 @@
     setTimeout(() => { t.className = ''; }, 3500);
   }
 
-  // ========== DANCE TEAM ==========
-  let dancers = [];
-  let imgCache = {};
-  
-  document.getElementById('dancerImage').addEventListener('change', e => {
+  // ========== DANCE TEAM GROUPS ==========
+  let danceGroups = [];
+  let currentLogo = null;
+
+  document.getElementById('groupLogo').addEventListener('change', e => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = evt => {
-      imgCache.current = evt.target.result;
-      document.getElementById('imagePreviewSmall').innerHTML = `<img src="${evt.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:3px; border:1px solid var(--border);">`;
+      currentLogo = evt.target.result;
+      document.getElementById('logoPreview').innerHTML = `<img src="${evt.target.result}" style="width:150px; height:150px; object-fit:contain; border-radius:4px; border:1px solid var(--border);">`;
     };
     reader.readAsDataURL(file);
   });
 
-  document.getElementById('groupName').addEventListener('input', e => document.getElementById('previewTitle').textContent = e.target.value || 'DANCE TEAM');
-  document.getElementById('groupSubtitle').addEventListener('input', e => document.getElementById('previewSubtitle').textContent = e.target.value || '');
+  document.getElementById('groupNameInput').addEventListener('input', e => updateGroupPreview());
+  document.getElementById('groupSubtitleInput').addEventListener('input', e => updateGroupPreview());
 
-  function addDancer() {
-    const name = document.getElementById('dancerName').value.trim();
-    if (!name) { showToast('⚠️ Nome richiesto!', 'warning'); return; }
-    dancers.push({
-      name,
-      role: document.getElementById('dancerRole').value.trim(),
-      bio: document.getElementById('dancerBio').value.trim(),
-      image: imgCache.current || null,
-      id: Date.now()
-    });
-    document.getElementById('dancerName').value = '';
-    document.getElementById('dancerRole').value = '';
-    document.getElementById('dancerBio').value = '';
-    document.getElementById('dancerImage').value = '';
-    document.getElementById('imagePreviewSmall').innerHTML = '';
-    imgCache.current = null;
-    updateDanceTeamUI();
-    showToast('✅ Ballerino aggiunto', 'success');
-  }
-
-  function deleteDancer(id) {
-    dancers = dancers.filter(d => d.id !== id);
-    updateDanceTeamUI();
-  }
-
-  function updateDanceTeamUI() {
-    const list = document.getElementById('dancersList');
-    list.innerHTML = dancers.map(d => `
-      <div style="background:rgba(201,149,42,0.08); border:1px solid rgba(201,149,42,0.2); padding:10px; margin-bottom:10px; border-radius:3px;">
-        <h4 style="color:var(--gold); margin-bottom:2px; font-size:12px;">${d.name}</h4>
-        <p style="color:var(--text-dim); font-size:10px; margin-bottom:2px;">${d.role || '-'}</p>
-        ${d.image ? `<div style="width:50px; height:50px; background-image:url('${d.image}'); background-size:cover; border-radius:2px; margin-bottom:6px;"></div>` : ''}
-        <button onclick="deleteDancer(${d.id})" style="background:var(--error); color:white; border:none; padding:4px 8px; border-radius:2px; cursor:pointer; font-size:10px;">🗑️ ELIMINA</button>
-      </div>
-    `).join('');
-
-    const grid = document.getElementById('previewGrid');
-    if (dancers.length === 0) {
-      grid.innerHTML = '<p style="color:var(--text-dim); text-align:center; padding:20px; font-size:11px;">Aggiungi ballerini...</p>';
+  function addDanceGroup() {
+    const name = document.getElementById('groupNameInput').value.trim();
+    if (!name) {
+      showToast('⚠️ Nome gruppo richiesto!', 'warning');
       return;
     }
-    grid.innerHTML = dancers.map(d => `
-      <div style="background:rgba(201,149,42,0.08); border:1px solid rgba(201,149,42,0.2); padding:8px; border-radius:3px;">
-        ${d.image ? `<img src="${d.image}" style="width:100%; height:80px; object-fit:cover; border-radius:2px; margin-bottom:6px; display:block;">` : ''}
-        <h4 style="color:var(--gold); font-size:12px; margin-bottom:2px;">${d.name}</h4>
-        <p style="color:var(--text-dim); font-size:10px;">${d.role || '-'}</p>
+    danceGroups.push({
+      id: Date.now(),
+      name: name,
+      subtitle: document.getElementById('groupSubtitleInput').value.trim() || 'DANCE GROUP • BLACK PANTHER',
+      logo: currentLogo
+    });
+    document.getElementById('groupNameInput').value = '';
+    document.getElementById('groupSubtitleInput').value = 'DANCE GROUP • BLACK PANTHER';
+    document.getElementById('groupLogo').value = '';
+    document.getElementById('logoPreview').innerHTML = '';
+    currentLogo = null;
+    updateGroupPreview();
+    showToast('✅ Gruppo aggiunto!', 'success');
+  }
+
+  function deleteGroup(id) {
+    danceGroups = danceGroups.filter(g => g.id !== id);
+    updateGroupPreview();
+    showToast('🗑️ Gruppo eliminato', 'info');
+  }
+
+  function updateGroupPreview() {
+    const container = document.getElementById('previewContainer');
+    if (danceGroups.length === 0) {
+      container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim); font-size:12px;">Aggiungi il primo gruppo...</div>';
+      return;
+    }
+    container.innerHTML = danceGroups.map(g => `
+      <div style="border:1px solid var(--border); border-radius:8px; padding:0; overflow:hidden; transition:all 0.3s;">
+        <div style="background:rgba(0,0,0,0.5); aspect-ratio:1; display:flex; align-items:center; justify-content:center; position:relative;">
+          ${g.logo ? `<img src="${g.logo}" style="max-width:80%; max-height:80%; object-fit:contain;">` : '<div style="color:var(--text-dim); font-size:12px;">No Image</div>'}
+        </div>
+        <div style="padding:20px; text-align:center;">
+          <h3 style="color:var(--gold); font-size:16px; letter-spacing:2px; margin-bottom:6px; font-family:'Bebas Neue';">${g.name}</h3>
+          <p style="color:var(--text-dim); font-size:12px; letter-spacing:1px;">${g.subtitle}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const list = document.getElementById('danceGroupsList');
+    list.innerHTML = danceGroups.map(g => `
+      <div style="background:rgba(201,149,42,0.1); border:1px solid rgba(201,149,42,0.2); padding:15px; margin-bottom:12px; border-radius:4px;">
+        <h4 style="color:var(--gold); margin-bottom:8px;">${g.name}</h4>
+        <p style="color:var(--text-dim); font-size:12px; margin-bottom:12px;">${g.subtitle}</p>
+        ${g.logo ? `<div style="width:80px; height:80px; background-image:url('${g.logo}'); background-size:contain; background-repeat:no-repeat; background-position:center; margin-bottom:12px; border:1px solid rgba(201,149,42,0.2); border-radius:3px;"></div>` : ''}
+        <button onclick="deleteGroup(${g.id})" style="background:var(--error); color:white; border:none; padding:6px 12px; border-radius:3px; cursor:pointer; font-size:11px; font-family:'Rajdhani'; font-weight:600;">🗑️ ELIMINA</button>
       </div>
     `).join('');
   }
 
-  function downloadDanceTeamHTML() {
-    if (dancers.length === 0) { showToast('⚠️ Aggiungi ballerini!', 'warning'); return; }
-    const groupName = document.getElementById('groupName').value.trim() || 'DANCE TEAM';
-    const groupSubtitle = document.getElementById('groupSubtitle').value.trim() || '';
-    const dancersHTML = dancers.map(d => `<div class="dance-card"><${d.image ? `img class="dance-logo" src="data:image/png;base64,${d.image.split(',')[1]}"` : 'div'}><p class="dance-name">${d.name}</p><p class="dance-role">${d.role}</p></div>`).join('');
-    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>${groupName}</title><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"><style>:root{--deep:#04030a;--gold:#c9952a;--gold-light:#f0c060;--white:#e8e8f0;--panel:rgba(8,5,20,0.88);}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--deep);color:var(--white);font-family:"Rajdhani",sans-serif;}main{position:relative;z-index:1;}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 20px;text-align:center;}.hero h1{font-family:"Bebas Neue",sans-serif;font-size:clamp(3rem,10vw,6rem);letter-spacing:.15em;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:20px;}.hero p{font-size:1.1rem;color:rgba(232,232,240,.7);}.section{padding:80px 20px;max-width:1200px;margin:0 auto;}.section-title{font-family:"Bebas Neue",sans-serif;font-size:2.5rem;letter-spacing:.1em;color:var(--gold);margin-bottom:40px;text-align:center;}.dance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;}.dance-card{background:var(--panel);border:1px solid rgba(201,149,42,.2);padding:30px;text-align:center;border-radius:2px;}.dance-logo{width:160px;height:160px;object-fit:contain;margin:0 auto 20px;display:block;}.dance-name{font-family:"Bebas Neue",sans-serif;font-size:1.5rem;color:var(--gold);margin-bottom:8px;}.dance-role{font-size:.85rem;color:rgba(232,232,240,.7);text-transform:uppercase;}</style></head><body><main><section class="hero"><div><h1>${groupName}</h1><p>${groupSubtitle}</p></div></section><section class="section"><h2 class="section-title">Our Dancers</h2><div class="dance-grid">${dancersHTML}</div></section></main></body></html>`;
-    const blob = new Blob([html], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = (groupName.toLowerCase().replace(/\s+/g,'_')) + '_danceteam.html';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('✅ HTML scaricato', 'success');
-  }
+  function downloadDanceTeamPage() {
+    if (danceGroups.length === 0) {
+      showToast('⚠️ Aggiungi almeno un gruppo!', 'warning');
+      return;
+    }
 
-  function downloadDanceTeamJSON() {
-    const groupName = document.getElementById('groupName').value.trim() || 'DANCE TEAM';
-    const data = {group:{name:groupName,subtitle:document.getElementById('groupSubtitle').value.trim()},dancers:dancers,createdAt:new Date().toISOString()};
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const groupsHTML = danceGroups.map(g => `
+      <div class="group-card">
+        <div class="group-image">
+          ${g.logo ? `<img src="data:image/png;base64,${g.logo.split(',')[1]}" alt="${g.name}">` : ''}
+        </div>
+        <div class="group-info">
+          <h3 class="group-name">${g.name}</h3>
+          <p class="group-subtitle">${g.subtitle}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const html = `<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dance Team Groups - Black Panther Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep: #04030a;
+      --gold: #c9952a;
+      --gold-light: #f0c060;
+      --white: #e8e8f0;
+      --panel: rgba(8,5,20,0.88);
+      --border: #2a2040;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--deep);
+      color: var(--white);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+    }
+    main { position: relative; z-index: 1; }
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1rem;
+      color: rgba(232,232,240,0.7);
+      letter-spacing: 2px;
+    }
+    .section {
+      padding: 80px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 50px;
+      text-align: center;
+    }
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .group-card {
+      border: 1px solid rgba(201,149,42,0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .group-card:hover {
+      border-color: rgba(201,149,42,0.6);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(201,149,42,0.2);
+    }
+    .group-image {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, rgba(59,0,204,0.1) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .group-image img {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 15px rgba(201,149,42,0.3));
+    }
+    .group-info {
+      padding: 25px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(8,5,20,0.6) 0%, rgba(4,3,10,0.9) 100%);
+    }
+    .group-name {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .group-subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: rgba(232,232,240,0.6);
+      text-transform: uppercase;
+    }
+    footer {
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      padding: 40px 20px;
+      text-align: center;
+      color: rgba(232,232,240,0.6);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div>
+        <h1>DANCE TEAM GROUPS</h1>
+        <p>Black Panther Club</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Our Groups</h2>
+      <div class="groups-grid">
+${groupsHTML}
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Black Panther Club &middot; All Rights Reserved</p>
+  </footer>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = (groupName.toLowerCase().replace(/\s+/g,'_')) + '_dancers.json';
+    a.download = 'dance_team_groups.html';
     a.click();
     URL.revokeObjectURL(url);
-    showToast('✅ JSON scaricato', 'success');
+    showToast('✅ HTML scaricato!', 'success');
   }
 
 </script>
