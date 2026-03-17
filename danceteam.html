@@ -120,6 +120,8 @@
       color: rgba(232,232,240,0.4);
     }
     .empty-icon { font-size: 48px; margin-bottom: 15px; }
+    .loading { opacity: 0.6; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
     footer {
       background: var(--panel);
       border-top: 1px solid var(--border);
@@ -160,10 +162,10 @@
 
     <section class="section">
       <h2 class="section-title">Our Groups</h2>
-      <div class="groups-grid" id="groupsContainer">
+      <div class="groups-grid" id="groupsContainer" class="loading">
         <div class="empty-state">
-          <div class="empty-icon">👥</div>
-          <div>Nessun gruppo ancora creato...</div>
+          <div class="empty-icon">⏳</div>
+          <div>Caricamento gruppi...</div>
         </div>
       </div>
     </section>
@@ -173,42 +175,63 @@
     <p>&copy; 2026 Black Panther Club &middot; All Rights Reserved</p>
   </footer>
 
-  <script>
-    // CARICA I GRUPPI DAL LOCALSTORAGE
-    function loadGroups() {
-      const groups = JSON.parse(localStorage.getItem('bpc_danceGroups') || '[]');
-      const container = document.getElementById('groupsContainer');
-      
-      if (groups.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">👥</div>
-            <div>Nessun gruppo ancora creato...</div>
-          </div>
-        `;
-        return;
-      }
+  <!-- FIREBASE SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
 
-      container.innerHTML = groups.map(g => `
-        <div class="group-card">
-          <div class="group-image">
-            ${g.logo ? `<img src="${g.logo}" alt="${g.name}">` : ''}
+  <script>
+    // ========== CONFIGURAZIONE FIREBASE ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyA8WyXwKnZHBpIoQfgWSGf7WgtivhoJEDk",
+      authDomain: "black-panther-ced90.firebaseapp.com",
+      databaseURL: "https://black-panther-ced90-default-rtdb.europe-west1.firebaseio.com",
+      projectId: "black-panther-ced90",
+      storageBucket: "black-panther-ced90.firebasestorage.app",
+      messagingSenderId: "107530122233336",
+      appId: "1:107530122233336:web:09d39bf6a6f9784545ea25",
+      measurementId: "G-LY0QPYOVPW"
+    };
+
+    // Inizializza Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ========== CARICA I GRUPPI DA FIREBASE ==========
+    function loadGroups() {
+      const container = document.getElementById('groupsContainer');
+
+      db.ref('danceGroups').on('value', (snapshot) => {
+        const groups = snapshot.val();
+        container.classList.remove('loading');
+
+        if (!groups || Object.keys(groups).length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">👥</div>
+              <div>Nessun gruppo ancora creato...</div>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = Object.values(groups).map(g => `
+          <div class="group-card">
+            <div class="group-image">
+              ${g.logo ? `<img src="${g.logo}" alt="${g.name}">` : ''}
+            </div>
+            <div class="group-info">
+              <h3 class="group-name">${g.name}</h3>
+              <p class="group-subtitle">${g.subtitle || ''}</p>
+            </div>
           </div>
-          <div class="group-info">
-            <h3 class="group-name">${g.name}</h3>
-            <p class="group-subtitle">${g.subtitle}</p>
-          </div>
-        </div>
-      `).join('');
+        `).join('');
+      });
     }
 
-    // CARICA I GRUPPI ALL'APERTURA DELLA PAGINA
+    // Carica i gruppi all'apertura della pagina
     loadGroups();
 
-    // RIFICA SE I DATI CAMBIANO OGNI 2 SECONDI (REFRESH IN TEMPO REALE)
-    setInterval(loadGroups, 2000);
-
-    // BACKGROUND PARTICLES
+    // ========== BACKGROUND PARTICLES ==========
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let W = canvas.width = innerWidth;
