@@ -423,78 +423,71 @@
       </div>
     </div>
 
-    <!-- TAB DANCE TEAM -->
+    <!-- TAB DANCE TEAM NUOVO -->
     <div class="tab-content" id="tab-danceteam">
       <div class="upload-section">
-        <div class="section-title"><span>👥</span> Crea Gruppo di Ballo</div>
+        <div class="section-title"><span>👥</span> Gestisci Gruppi di Ballo</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-          <!-- EDITOR PANNELLO SINISTRO -->
+          <!-- PANNELLO SINISTRO - EDITOR -->
           <div>
             <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:20px; border-radius:8px;">
               <h3 style="color:var(--gold); margin-bottom:15px; font-size:18px; letter-spacing:2px;">📋 INFO GRUPPO</h3>
-              
               <div style="margin-bottom:15px;">
-                <label class="input-label">Nome del Gruppo *</label>
-                <input type="text" id="groupName" class="input-field" placeholder="Es: POLECATS, REBELS..." value="DANCE TEAM">
+                <label class="input-label">Nome del Gruppo</label>
+                <input type="text" id="groupName" class="input-field" placeholder="POLECATS" value="POLECATS">
               </div>
-
               <div style="margin-bottom:15px;">
                 <label class="input-label">Sottotitolo</label>
-                <input type="text" id="groupSubtitle" class="input-field" placeholder="Es: Elite Dance Team • Black Panther">
+                <input type="text" id="groupSubtitle" class="input-field" placeholder="Elite Dance Team • Black Panther" value="Elite Dance Team">
               </div>
 
               <h3 style="color:var(--gold); margin:30px 0 15px; font-size:18px; letter-spacing:2px;">👤 AGGIUNGI BALLERINO</h3>
-              
               <div style="margin-bottom:15px;">
-                <label class="input-label">Nome Ballerino</label>
-                <input type="text" id="dancerName" class="input-field" placeholder="Es: AMBER">
+                <label class="input-label">Nome</label>
+                <input type="text" id="dancerName" class="input-field" placeholder="AMBER">
               </div>
-
               <div style="margin-bottom:15px;">
                 <label class="input-label">Ruolo</label>
-                <input type="text" id="dancerRole" class="input-field" placeholder="Es: Lead Dancer">
+                <input type="text" id="dancerRole" class="input-field" placeholder="Lead Dancer">
               </div>
-
               <div style="margin-bottom:15px;">
                 <label class="input-label">Bio</label>
-                <textarea id="dancerBio" class="input-field" placeholder="Es: High energy performer con 8+ anni..." style="min-height:80px; resize:vertical;"></textarea>
+                <textarea id="dancerBio" class="input-field" placeholder="High energy performer..." style="min-height:70px; resize:vertical;"></textarea>
               </div>
-
               <div style="margin-bottom:15px;">
-                <label class="input-label">Carica Immagine</label>
+                <label class="input-label">Foto</label>
                 <input type="file" id="dancerImage" accept="image/*" style="width:100%; padding:10px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:4px; color:var(--text); cursor:pointer;">
               </div>
-
               <div id="imagePreviewSmall" style="margin-bottom:15px;"></div>
+              <button class="upload-btn" onclick="addDancer()" style="width:100%; margin-bottom:15px;">➕ AGGIUNGI</button>
 
-              <button class="upload-btn" onclick="addDancer()" style="width:100%; margin-bottom:20px;">➕ AGGIUNGI BALLERINO</button>
-
-              <h3 style="color:var(--gold); margin:20px 0 15px; font-size:16px; letter-spacing:2px;">📋 I TUOI BALLERINI</h3>
-              <div id="dancersList" style="max-height:400px; overflow-y:auto;"></div>
+              <h3 style="color:var(--gold); margin:15px 0 10px; font-size:14px;">I TUOI BALLERINI</h3>
+              <div id="dancersList" style="max-height:300px; overflow-y:auto; font-size:12px;"></div>
             </div>
           </div>
 
-          <!-- PREVIEW PANNELLO DESTRO -->
+          <!-- PANNELLO DESTRO - PREVIEW -->
           <div>
             <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:20px; border-radius:8px;">
-              <h1 id="previewTitle" style="font-size:2rem; color:var(--gold); letter-spacing:3px; margin-bottom:10px; font-family:'Bebas Neue';">DANCE TEAM</h1>
-              <p id="previewSubtitle" style="color:var(--text-dim); margin-bottom:30px; font-size:13px;">Elite Dance Team</p>
+              <h1 id="previewTitle" style="font-size:1.8rem; color:var(--gold); letter-spacing:2px; margin-bottom:8px; font-family:'Bebas Neue';">POLECATS</h1>
+              <p id="previewSubtitle" style="color:var(--text-dim); margin-bottom:20px; font-size:12px;">Elite Dance Team</p>
               
-              <h3 style="color:var(--gold-light); margin-bottom:15px; font-size:16px;">PREVIEW BALLERINI:</h3>
-              <div id="previewGrid" style="display:grid; grid-template-columns:1fr; gap:15px;">
-                <p style="color:var(--text-dim); text-align:center; padding:20px;">Aggiungi ballerini per vederli qui...</p>
+              <h3 style="color:var(--gold-light); margin-bottom:12px; font-size:13px;">PREVIEW:</h3>
+              <div id="previewGrid" style="display:grid; grid-template-columns:1fr; gap:12px; max-height:400px; overflow-y:auto;">
+                <p style="color:var(--text-dim); text-align:center; padding:20px; font-size:12px;">Aggiungi ballerini...</p>
               </div>
 
-              <div style="margin-top:30px; padding-top:30px; border-top:1px solid var(--border);">
-                <h3 style="color:var(--gold-light); margin-bottom:15px; font-size:16px;">📥 DOWNLOAD</h3>
-                <button class="upload-btn" onclick="downloadDanceTeamHTML()" style="width:100%; margin-bottom:10px;">⬇️ SCARICA HTML</button>
-                <button class="upload-btn" onclick="downloadDanceTeamJSON()" style="width:100%; background:linear-gradient(135deg, var(--violet), var(--violet-light));">⬇️ SCARICA DATI</button>
+              <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border);">
+                <h3 style="color:var(--gold-light); margin-bottom:10px; font-size:13px;">📥 DOWNLOAD</h3>
+                <button class="upload-btn" onclick="downloadDanceTeamHTML()" style="width:100%; margin-bottom:8px; padding:10px;">HTML</button>
+                <button class="upload-btn" onclick="downloadDanceTeamJSON()" style="width:100%; padding:10px; background:linear-gradient(135deg, var(--violet), var(--violet-light));">JSON</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </main>
 </div>
 
 <div id="toast"></div>
@@ -761,202 +754,101 @@
     setTimeout(() => { t.className = ''; }, 3500);
   }
 
-  // ==================== DANCE TEAM FUNCTIONS ====================
+  // ========== DANCE TEAM ==========
   let dancers = [];
-  let imageCache = {};
-
-  document.getElementById('dancerImage').addEventListener('change', function(e) {
+  let imgCache = {};
+  
+  document.getElementById('dancerImage').addEventListener('change', e => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const preview = document.getElementById('imagePreviewSmall');
-        preview.innerHTML = `<img src="${event.target.result}" style="width:80px; height:80px; object-fit:cover; border-radius:4px; border:1px solid var(--border);">`;
-        imageCache.current = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = evt => {
+      imgCache.current = evt.target.result;
+      document.getElementById('imagePreviewSmall').innerHTML = `<img src="${evt.target.result}" style="width:70px; height:70px; object-fit:cover; border-radius:3px; border:1px solid var(--border);">`;
+    };
+    reader.readAsDataURL(file);
   });
 
-  document.getElementById('groupName').addEventListener('input', function() {
-    document.getElementById('previewTitle').textContent = this.value || 'DANCE TEAM';
-  });
-
-  document.getElementById('groupSubtitle').addEventListener('input', function() {
-    document.getElementById('previewSubtitle').textContent = this.value || 'Elite Dance Team';
-  });
+  document.getElementById('groupName').addEventListener('input', e => document.getElementById('previewTitle').textContent = e.target.value || 'DANCE TEAM');
+  document.getElementById('groupSubtitle').addEventListener('input', e => document.getElementById('previewSubtitle').textContent = e.target.value || '');
 
   function addDancer() {
     const name = document.getElementById('dancerName').value.trim();
-    const role = document.getElementById('dancerRole').value.trim();
-    const bio = document.getElementById('dancerBio').value.trim();
-    const image = imageCache.current || null;
-
-    if (!name) {
-      showToast('⚠️ Inserisci il nome del ballerino!', 'warning');
-      return;
-    }
-
-    dancers.push({ name, role, bio, image, id: Date.now() });
-    
+    if (!name) { showToast('⚠️ Nome richiesto!', 'warning'); return; }
+    dancers.push({
+      name,
+      role: document.getElementById('dancerRole').value.trim(),
+      bio: document.getElementById('dancerBio').value.trim(),
+      image: imgCache.current || null,
+      id: Date.now()
+    });
     document.getElementById('dancerName').value = '';
     document.getElementById('dancerRole').value = '';
     document.getElementById('dancerBio').value = '';
     document.getElementById('dancerImage').value = '';
     document.getElementById('imagePreviewSmall').innerHTML = '';
-    imageCache.current = null;
-
+    imgCache.current = null;
     updateDanceTeamUI();
-    showToast('✅ Ballerino aggiunto!', 'success');
+    showToast('✅ Ballerino aggiunto', 'success');
   }
 
   function deleteDancer(id) {
     dancers = dancers.filter(d => d.id !== id);
     updateDanceTeamUI();
-    showToast('🗑️ Ballerino eliminato', 'info');
   }
 
   function updateDanceTeamUI() {
-    updateDancersList();
-    updatePreview();
-  }
-
-  function updateDancersList() {
     const list = document.getElementById('dancersList');
     list.innerHTML = dancers.map(d => `
-      <div style="background:rgba(201,149,42,0.1); border:1px solid var(--border); padding:12px; margin-bottom:12px; border-radius:4px;">
-        <h4 style="color:var(--gold); margin-bottom:4px;">${d.name}</h4>
-        <p style="font-size:12px; color:var(--text-dim); margin-bottom:4px;"><strong>${d.role || 'Ballerino'}</strong></p>
-        <p style="font-size:11px; color:var(--text-dim); margin-bottom:8px;">${d.bio || '-'}</p>
-        ${d.image ? `<div style="width:60px; height:60px; background-image:url('${d.image}'); background-size:cover; border-radius:3px; border:1px solid var(--border); margin-bottom:8px;"></div>` : ''}
-        <button onclick="deleteDancer(${d.id})" style="background:var(--error); color:white; border:none; padding:6px 12px; border-radius:3px; cursor:pointer; font-size:11px; font-family:'Rajdhani';">🗑️ ELIMINA</button>
+      <div style="background:rgba(201,149,42,0.08); border:1px solid rgba(201,149,42,0.2); padding:10px; margin-bottom:10px; border-radius:3px;">
+        <h4 style="color:var(--gold); margin-bottom:2px; font-size:12px;">${d.name}</h4>
+        <p style="color:var(--text-dim); font-size:10px; margin-bottom:2px;">${d.role || '-'}</p>
+        ${d.image ? `<div style="width:50px; height:50px; background-image:url('${d.image}'); background-size:cover; border-radius:2px; margin-bottom:6px;"></div>` : ''}
+        <button onclick="deleteDancer(${d.id})" style="background:var(--error); color:white; border:none; padding:4px 8px; border-radius:2px; cursor:pointer; font-size:10px;">🗑️ ELIMINA</button>
       </div>
     `).join('');
-  }
 
-  function updatePreview() {
     const grid = document.getElementById('previewGrid');
     if (dancers.length === 0) {
-      grid.innerHTML = '<p style="grid-column:1/-1; color:var(--text-dim); text-align:center; padding:20px;">Aggiungi ballerini per vederli qui...</p>';
+      grid.innerHTML = '<p style="color:var(--text-dim); text-align:center; padding:20px; font-size:11px;">Aggiungi ballerini...</p>';
       return;
     }
-    
     grid.innerHTML = dancers.map(d => `
-      <div style="background:rgba(201,149,42,0.05); border:1px solid var(--border); padding:12px; border-radius:4px;">
-        ${d.image ? `<img src="${d.image}" alt="${d.name}" style="width:100%; height:120px; object-fit:cover; border-radius:3px; margin-bottom:8px; display:block;">` : ''}
-        <h4 style="color:var(--gold); margin-bottom:3px; font-size:13px;">${d.name}</h4>
-        <p style="font-size:11px; color:var(--text-dim); margin-bottom:3px;"><strong>${d.role || 'Ballerino'}</strong></p>
-        <p style="font-size:10px; color:var(--text-dim); line-height:1.3;">${d.bio || '-'}</p>
+      <div style="background:rgba(201,149,42,0.08); border:1px solid rgba(201,149,42,0.2); padding:8px; border-radius:3px;">
+        ${d.image ? `<img src="${d.image}" style="width:100%; height:80px; object-fit:cover; border-radius:2px; margin-bottom:6px; display:block;">` : ''}
+        <h4 style="color:var(--gold); font-size:12px; margin-bottom:2px;">${d.name}</h4>
+        <p style="color:var(--text-dim); font-size:10px;">${d.role || '-'}</p>
       </div>
     `).join('');
   }
 
   function downloadDanceTeamHTML() {
+    if (dancers.length === 0) { showToast('⚠️ Aggiungi ballerini!', 'warning'); return; }
     const groupName = document.getElementById('groupName').value.trim() || 'DANCE TEAM';
-    const groupSubtitle = document.getElementById('groupSubtitle').value.trim() || 'Elite Dance Team';
-
-    if (dancers.length === 0) {
-      showToast('⚠️ Aggiungi almeno un ballerino!', 'warning');
-      return;
-    }
-
-    const dancersHTML = dancers.map(d => `
-      <div class="dance-card">
-        ${d.image ? `<img class="dance-logo" src="data:image/png;base64,${d.image.split(',')[1]}" alt="${d.name}">` : ''}
-        <p class="dance-name">${d.name}</p>
-        <p class="dance-role">${d.role || 'Dance Team'}</p>
-        ${d.bio ? `<p style="font-size:.9rem; color:rgba(232,232,240,.8); margin-top:10px;">${d.bio}</p>` : ''}
-      </div>
-    `).join('');
-
-    const html = `<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${groupName} - Dance Team</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --deep:#04030a; --gold:#c9952a; --gold-light:#f0c060; --white:#e8e8f0; --panel:rgba(8,5,20,0.88); }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:var(--deep); color:var(--white); font-family:"Rajdhani",sans-serif; overflow-x:hidden; }
-    #canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
-    main { position:relative; z-index:1; }
-    .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:80px 20px; text-align:center; }
-    .hero h1 { font-family:"Bebas Neue",sans-serif; font-size:clamp(3rem,10vw,6rem); letter-spacing:.15em; background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:20px; }
-    .hero p { font-size:1.1rem; color:rgba(232,232,240,.7); }
-    .section { padding:80px 20px; max-width:1200px; margin:0 auto; }
-    .section-title { font-family:"Bebas Neue",sans-serif; font-size:2.5rem; letter-spacing:.1em; color:var(--gold); margin-bottom:40px; text-align:center; }
-    .dance-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px; }
-    .dance-card { background:var(--panel); border:1px solid rgba(201,149,42,.2); padding:30px; text-align:center; border-radius:2px; transition:all .3s; }
-    .dance-card:hover { transform:translateY(-6px); border-color:rgba(201,149,42,.6); }
-    .dance-logo { width:160px; height:160px; object-fit:contain; margin:0 auto 20px; display:block; }
-    .dance-name { font-family:"Bebas Neue",sans-serif; font-size:1.5rem; color:var(--gold); margin-bottom:8px; }
-    .dance-role { font-size:.85rem; color:rgba(232,232,240,.7); text-transform:uppercase; }
-    footer { background:var(--panel); border-top:1px solid rgba(201,149,42,.2); padding:40px 20px; text-align:center; color:rgba(232,232,240,.6); }
-  </style>
-</head>
-<body>
-<canvas id="canvas"></canvas>
-<main>
-  <section class="hero">
-    <div>
-      <h1>${groupName}</h1>
-      <p>${groupSubtitle}</p>
-    </div>
-  </section>
-  <section class="section">
-    <h2 class="section-title">Our Dancers</h2>
-    <div class="dance-grid">
-${dancersHTML}
-    </div>
-  </section>
-</main>
-<footer>
-  <p>&copy; 2026 Black Panther Club &middot; All Rights Reserved</p>
-</footer>
-<script>
-const canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d");
-let W,H,particles=[];
-function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
-resize();window.addEventListener("resize",resize);
-function Particle(){this.reset=function(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.8+.3;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.life=Math.random();this.maxLife=.4+Math.random()*.6;this.color=Math.random()<.6?"201,149,42":"80,40,220";};this.reset();}
-for(let i=0;i<150;i++){let p=new Particle();p.life=Math.random();particles.push(p);}
-function draw(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.life+=.003;if(p.life>p.maxLife)p.reset();let alpha=Math.sin((p.life/p.maxLife)*Math.PI)*.5;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba("+p.color+","+alpha+")";ctx.fill();p.x+=p.vx;p.y+=p.vy;});requestAnimationFrame(draw);}
-draw();
-</script>
-</body>
-</html>`;
-
-    const blob = new Blob([html], { type: 'text/html' });
+    const groupSubtitle = document.getElementById('groupSubtitle').value.trim() || '';
+    const dancersHTML = dancers.map(d => `<div class="dance-card"><${d.image ? `img class="dance-logo" src="data:image/png;base64,${d.image.split(',')[1]}"` : 'div'}><p class="dance-name">${d.name}</p><p class="dance-role">${d.role}</p></div>`).join('');
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>${groupName}</title><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"><style>:root{--deep:#04030a;--gold:#c9952a;--gold-light:#f0c060;--white:#e8e8f0;--panel:rgba(8,5,20,0.88);}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--deep);color:var(--white);font-family:"Rajdhani",sans-serif;}main{position:relative;z-index:1;}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 20px;text-align:center;}.hero h1{font-family:"Bebas Neue",sans-serif;font-size:clamp(3rem,10vw,6rem);letter-spacing:.15em;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:20px;}.hero p{font-size:1.1rem;color:rgba(232,232,240,.7);}.section{padding:80px 20px;max-width:1200px;margin:0 auto;}.section-title{font-family:"Bebas Neue",sans-serif;font-size:2.5rem;letter-spacing:.1em;color:var(--gold);margin-bottom:40px;text-align:center;}.dance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;}.dance-card{background:var(--panel);border:1px solid rgba(201,149,42,.2);padding:30px;text-align:center;border-radius:2px;}.dance-logo{width:160px;height:160px;object-fit:contain;margin:0 auto 20px;display:block;}.dance-name{font-family:"Bebas Neue",sans-serif;font-size:1.5rem;color:var(--gold);margin-bottom:8px;}.dance-role{font-size:.85rem;color:rgba(232,232,240,.7);text-transform:uppercase;}</style></head><body><main><section class="hero"><div><h1>${groupName}</h1><p>${groupSubtitle}</p></div></section><section class="section"><h2 class="section-title">Our Dancers</h2><div class="dance-grid">${dancersHTML}</div></section></main></body></html>`;
+    const blob = new Blob([html], {type:'text/html'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = (groupName.toLowerCase().replace(/\s+/g, '_')) + '_danceteam.html';
+    a.download = (groupName.toLowerCase().replace(/\s+/g,'_')) + '_danceteam.html';
     a.click();
     URL.revokeObjectURL(url);
-    showToast('✅ HTML scaricato!', 'success');
+    showToast('✅ HTML scaricato', 'success');
   }
 
   function downloadDanceTeamJSON() {
     const groupName = document.getElementById('groupName').value.trim() || 'DANCE TEAM';
-    const groupSubtitle = document.getElementById('groupSubtitle').value.trim() || '';
-    
-    const data = {
-      group: { name: groupName, subtitle: groupSubtitle },
-      dancers: dancers,
-      createdAt: new Date().toISOString()
-    };
-    
-    const json = JSON.stringify(data, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
+    const data = {group:{name:groupName,subtitle:document.getElementById('groupSubtitle').value.trim()},dancers:dancers,createdAt:new Date().toISOString()};
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = (groupName.toLowerCase().replace(/\s+/g, '_')) + '_dancers.json';
+    a.download = (groupName.toLowerCase().replace(/\s+/g,'_')) + '_dancers.json';
     a.click();
     URL.revokeObjectURL(url);
-    showToast('✅ JSON scaricato!', 'success');
+    showToast('✅ JSON scaricato', 'success');
   }
 
 </script>
