@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Black Panther Club</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #04030a;
+      --gold: #c9952a;
+      --gold-light: #e8b84b;
+      --violet: #3b00cc;
+      --text: #e8e0d0;
+      --text-dim: #8a8070;
+      --card: #0d0b18;
+      --border: #2a2040;
+      --success: #2ecc71;
+      --error: #e74c3c;
+      --warning: #f39c12;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+    }
+
+    #loginOverlay {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at center, #0d0b18 0%, #04030a 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.5s;
+    }
+    #loginOverlay.hidden { opacity: 0; pointer-events: none; }
+
+    .login-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      padding: 50px 40px;
+      width: 380px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-box::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(201,149,42,0.05), transparent);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer { to { left: 150%; } }
+
+    .login-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 28px;
+      color: var(--gold);
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+    .login-sub {
+      color: var(--text-dim);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 35px;
+    }
+    .login-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 16px;
+      transition: border-color 0.3s;
+    }
+    .login-input:focus { outline: none; border-color: var(--gold); }
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border: none; border-radius: 4px;
+      padding: 14px;
+      color: #04030a;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 18px;
+      letter-spacing: 4px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-weight: bold;
+    }
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,149,42,0.4); }
+    .login-error { color: var(--error); font-size: 13px; margin-top: 12px; display: none; }
+
+    #adminPanel { display: none; }
+    #adminPanel.visible { display: block; }
+
+    header {
+      background: linear-gradient(180deg, #0d0b18 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    .header-brand {
+      display: flex; align-items: center; gap: 15px;
+    }
+    .header-title { font-family: 'Bebas Neue', cursive; font-size: 22px; color: var(--gold); letter-spacing: 3px; }
+    .header-badge { background: var(--violet); color: white; font-size: 11px; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; }
+
+    .logout-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; padding: 8px 20px; cursor: pointer; letter-spacing: 1px;
+      transition: all 0.2s; border-radius: 4px;
+    }
+    .logout-btn:hover { border-color: var(--error); color: var(--error); }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+    .page-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 42px; color: var(--gold);
+      letter-spacing: 6px; margin-bottom: 8px;
+    }
+    .page-sub { color: var(--text-dim); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
+
+    .upload-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 22px; color: var(--gold-light);
+      letter-spacing: 3px; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .input-group { margin-bottom: 20px; }
+    .input-label { font-size: 12px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+    .input-field {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 10px 14px;
+      color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 15px;
+    }
+    .input-field:focus { outline: none; border-color: var(--gold); }
+
+    .upload-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border: none; border-radius: 4px;
+      padding: 14px 28px; color: #04030a;
+      font-family: 'Bebas Neue', cursive; font-size: 17px; letter-spacing: 3px;
+      cursor: pointer; width: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-weight: bold;
+    }
+    .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,149,42,0.4); }
+
+    #toast {
+      position: fixed; bottom: 30px; right: 30px;
+      padding: 14px 24px; border-radius: 6px;
+      font-size: 14px;
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s; z-index: 9999;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { background: rgba(46,204,113,0.15); border: 1px solid var(--success); color: var(--success); }
+    #toast.error { background: rgba(231,76,60,0.15); border: 1px solid var(--error); color: var(--error); }
+    #toast.warning { background: rgba(243,156,18,0.15); border: 1px solid var(--warning); color: var(--warning); }
+
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--text-dim); }
+    .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+
+    .group-item {
+      background: rgba(201,149,42,0.1);
+      border: 1px solid rgba(201,149,42,0.2);
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .group-item h4 { color: var(--gold); margin-bottom: 4px; }
+    .group-item p { color: var(--text-dim); font-size: 12px; }
+    .delete-btn {
+      background: var(--error);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">Black Panther Club</div>
+    <input type="password" class="login-input" id="pwdInput" placeholder="••••••••">
+    <button class="login-btn" onclick="checkLogin()">ACCEDI</button>
+    <div class="login-error" id="loginError">Password errata. Riprova.</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <header>
+    <div class="header-brand">
+      <div class="header-title">Black Panther</div>
+      <div class="header-badge">ADMIN</div>
+    </div>
+    <button class="logout-btn" onclick="logout()">⎋ LOGOUT</button>
+  </header>
+
+  <main>
+    <div class="page-title">PANNELLO ADMIN</div>
+    <div class="page-sub">Gestisci i gruppi di danza</div>
+
+    <div class="upload-section">
+      <div class="section-title"><span>💃</span> Aggiungi Gruppo di Danza</div>
+      <div class="input-group">
+        <label class="input-label">Nome Gruppo</label>
+        <input type="text" class="input-field" id="groupNameInput" placeholder="es. Urban Crew">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Sottotitolo</label>
+        <input type="text" class="input-field" id="groupSubtitleInput" value="DANCE GROUP • BLACK PANTHER">
+      </div>
+      <button class="upload-btn" onclick="saveGroup()">✅ AGGIUNGI GRUPPO</button>
+    </div>
+
+    <div class="upload-section">
+      <div class="section-title"><span>👥</span> Gruppi Creati</div>
+      <div id="groupsList"></div>
+    </div>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+
+<script>
+  const ADMIN_PASSWORD = 'S1m0n3-05-08';
+
+  // FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "AIzaSyA8WyXwKnZHBpIoQfgWSGf7WgtivhoJEDk",
+    authDomain: "black-panther-ced90.firebaseapp.com",
+    databaseURL: "https://black-panther-ced90-default-rtdb.europe-west1.firebaseio.com",
+    projectId: "black-panther-ced90",
+    storageBucket: "black-panther-ced90.firebasestorage.app",
+    messagingSenderId: "107530122233336",
+    appId: "1:107530122233336:web:09d39bf6a6f9784545ea25",
+    measurementId: "G-LY0QPYOVPW"
+  };
+
+  // INIZIALIZZA FIREBASE
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  console.log('Firebase inizializzato:', !!db);
+
+  // LOGIN
+  function checkLogin() {
+    const pwd = document.getElementById('pwdInput').value;
+    if (pwd === ADMIN_PASSWORD) {
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('adminPanel').classList.add('visible');
+      loadGroups();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('pwdInput').value = '';
+    }
+  }
+
+  document.getElementById('pwdInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkLogin();
+  });
+
+  function logout() {
+    document.getElementById('loginOverlay').style.display = 'flex';
+    document.getElementById('adminPanel').classList.remove('visible');
+    document.getElementById('pwdInput').value = '';
+  }
+
+  function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show ' + type;
+    setTimeout(() => { t.className = ''; }, 3500);
+  }
+
+  // SALVA GRUPPO
+  function saveGroup() {
+    const name = document.getElementById('groupNameInput').value.trim();
+    const subtitle = document.getElementById('groupSubtitleInput').value.trim();
+
+    if (!name) {
+      showToast('⚠️ Scrivi il nome!', 'warning');
+      return;
+    }
+
+    const newGroup = {
+      name: name,
+      subtitle: subtitle || 'DANCE GROUP • BLACK PANTHER',
+      createdAt: new Date().toISOString()
+    };
+
+    db.ref('danceGroups').push(newGroup).then(() => {
+      console.log('Gruppo salvato!');
+      document.getElementById('groupNameInput').value = '';
+      document.getElementById('groupSubtitleInput').value = 'DANCE GROUP • BLACK PANTHER';
+      loadGroups();
+      showToast('✅ Gruppo aggiunto!', 'success');
+    }).catch(err => {
+      console.error('Errore:', err);
+      showToast('❌ Errore: ' + err.message, 'error');
+    });
+  }
+
+  // CARICA GRUPPI
+  function loadGroups() {
+    db.ref('danceGroups').on('value', snapshot => {
+      const data = snapshot.val();
+      const list = document.getElementById('groupsList');
+
+      if (!data) {
+        list.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div>Nessun gruppo</div></div>';
+        return;
+      }
+
+      list.innerHTML = Object.entries(data).map(([key, g]) => `
+        <div class="group-item">
+          <div>
+            <h4>${g.name}</h4>
+            <p>${g.subtitle}</p>
+          </div>
+          <button class="delete-btn" onclick="deleteGroup('${key}')">🗑️</button>
+        </div>
+      `).join('');
+    }, err => {
+      console.error('Errore lettura:', err);
+      showToast('❌ Errore connessione', 'error');
+    });
+  }
+
+  // ELIMINA GRUPPO
+  function deleteGroup(key) {
+    if (confirm('Eliminare?')) {
+      db.ref('danceGroups/' + key).remove().then(() => {
+        showToast('🗑️ Eliminato', 'error');
+      }).catch(err => {
+        showToast('❌ Errore eliminazione', 'error');
+      });
+    }
+  }
+
+  loadGroups();
+</script>
+
+</body>
+</html>
