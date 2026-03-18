@@ -229,8 +229,8 @@ function loadFlayers() {
   // Carica le immagini con nome formato: YYYY-MM-DD_EVENTO_Nome.jpg
   // Esempio: 2026-03-18_SUMMER_Festa Estiva.jpg
   
-  const GITHUB_USER = "your-username";           // ← Cambia con il tuo username
-  const GITHUB_REPO = "your-repo";               // ← Cambia con il nome del repo
+  const GITHUB_USER = "blackpantherclub";        // ← Configurato
+  const GITHUB_REPO = "blackpantherclub";        // ← Configurato
   const GITHUB_FOLDER = "flyers";                // Cartella dove sono le immagini
   const GITHUB_BRANCH = "main";                  // Branch (main/master)
 
@@ -250,14 +250,15 @@ function fetchFlayersFromGitHub(apiUrl, container) {
         throw new Error("Cartella GitHub non trovata");
       }
 
-      // Filtra solo immagini
+      // Filtra solo immagini (PNG, JPG, JPEG, GIF, WEBP)
       const imageFiles = data.filter(file => 
         /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
       );
 
-      // Parsing del nome file: YYYY-MM-DD_EVENTO_Nome.jpg
+      // Parsing del nome file: YYYY-MM-DD_EVENTO_Nome.{png|jpg|jpeg}
       const flayers = imageFiles.map(file => {
-        const match = file.name.match(/^(\d{4}-\d{2}-\d{2})_([A-Z0-9_-]+)_(.+)\.\w+$/);
+        // Accetta formato: YYYY-MM-DD_EVENTO_Nome.png oppure YYYY-MM-DD_EVENTO_Nome.jpg
+        const match = file.name.match(/^(\d{4}-\d{2}-\d{2})_([A-Z0-9_-]+)_(.+?)\.(jpg|jpeg|png|gif|webp)$/i);
         
         if (match) {
           const [, dateStr, evento, nome] = match;
