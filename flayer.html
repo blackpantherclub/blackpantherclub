@@ -215,34 +215,167 @@ lightboxClose.addEventListener("click", closeLightbox);
 lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
 
-/* ── LOAD FLYERS ── */
+/* ── LOAD FLYERS FROM GITHUB ── */
 function loadFlayers() {
   const container = document.getElementById("flayerContainer");
   if (!container) return;
 
-  const flayers = JSON.parse(localStorage.getItem("bpc_flayer") || "[]");
+  container.innerHTML = '<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Caricamento flyer...</p>';
+
+  // ──────────────────────────────────────────────────────────────
+  // CONFIG GITHUB
+  // ──────────────────────────────────────────────────────────────
+  // Crea una cartella nel repo: /flyers
+  // Carica le immagini con nome formato: YYYY-MM-DD_EVENTO_Nome.jpg
+  // Esempio: 2026-03-18_SUMMER_Festa Estiva.jpg
+  
+  const GITHUB_USER = "your-username";           // ← Cambia con il tuo username
+  const GITHUB_REPO = "your-repo";               // ← Cambia con il nome del repo
+  const GITHUB_FOLDER = "flyers";                // Cartella dove sono le immagini
+  const GITHUB_BRANCH = "main";                  // Branch (main/master)
+
+  const API_URL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FOLDER}?ref=${GITHUB_BRANCH}`;
+
+  fetchFlayersFromGitHub(API_URL, container);
+}
+
+function fetchFlayersFromGitHub(apiUrl, container) {
+  fetch(apiUrl)
+    .then(res => {
+      if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      if (!Array.isArray(data)) {
+        throw new Error("Cartella GitHub non trovata");
+      }
+
+      // Filtra solo immagini
+      const imageFiles = data.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+      );
+
+      // Parsing del nome file: YYYY-MM-DD_EVENTO_Nome.jpg
+      const flayers = imageFiles.map(file => {
+        const match = file.name.match(/^(\d{4}-\d{2}-\d{2})_([A-Z0-9_-]+)_(.+)\.\w+$/);
+        
+        if (match) {
+          const [, dateStr, evento, nome] = match;
+          return {
+            url: file.download_url,
+            name: nome,
+            evento: evento,
+            date: new Date(dateStr),
+            dateStr: dateStr
+          };
+        }
+        
+        // Fallback se il nome non rispetta il formato
+        return {
+          url: file.download_url,
+          name: file.name.replace(/\.\w+$/, ''),
+          evento: "VARIO",
+          date: new Date(0),
+          dateStr: "0000-00-00"
+        };
+      });
+
+      // Ordina per data (più recenti prima)
+      flayers.sort((a, b) => b.date - a.date);
+
+      // Raggruppa per evento
+      const flayersByEvent = {};
+      flayers.forEach(f => {
+        if (!flayersByEvent[f.evento]) {
+          flayersByEvent[f.evento] = [];
+        }
+        flayersByEvent[f.evento].push(f);
+      });
+
+      // Ordina eventi per data più recente
+      const sortedEvents = Object.keys(flayersByEvent).sort((a, b) => {
+        const dateA = Math.max(...flayersByEvent[a].map(f => f.date));
+        const dateB = Math.max(...flayersByEvent[b].map(f => f.date));
+        return dateB - dateA;
+      });
+
+      renderFlayersByEvent(flayersByEvent, sortedEvents, container);
+    })
+    .catch(err => {
+      console.error("Errore caricamento flyer:", err);
+      container.innerHTML = `<p style="color:rgba(200,100,100,.6);letter-spacing:.2em;text-align:center;padding:40px 0;">Errore: ${err.message}</p>`;
+    });
+}
+
+function renderFlayersByEvent(flayersByEvent, sortedEvents, container) {
   container.innerHTML = "";
 
-  if (flayers.length === 0) {
+  if (sortedEvents.length === 0) {
     container.innerHTML = '<p style="color:rgba(232,224,208,.4);letter-spacing:.2em;text-align:center;padding:40px 0;">Nessun flyer disponibile</p>';
     return;
   }
 
-  flayers.forEach(item => {
-    const src = typeof item === "string" ? item : item.url;
-    const alt = typeof item === "object" && item.name ? item.name : "Flyer";
+  sortedEvents.forEach(evento => {
+    const eventFlayers = flayersByEvent[evento];
+    
+    // Sezione evento
+    const eventSection = document.createElement("div");
+    eventSection.style.marginBottom = "60px";
+    
+    // Titolo evento
+    const eventTitle = document.createElement("h2");
+    eventTitle.className = "fade-in";
+    eventTitle.style.cssText = `
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(201,149,42,.3);
+    `;
+    eventTitle.textContent = evento;
+    eventSection.appendChild(eventTitle);
+    
+    // Griglia flayer per questo evento
+    const grid = document.createElement("div");
+    grid.className = "flyer-grid";
+    
+    // Ordina per data decrescente (più recenti prima)
+    eventFlayers.sort((a, b) => b.date - a.date);
+    
+    eventFlayers.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "flyer-card fade-in";
 
-    const card = document.createElement("div");
-    card.className = "flyer-card";
+      const img = document.createElement("img");
+      img.src = item.url;
+      img.alt = item.name;
+      img.className = "flyer-thumb";
 
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = alt;
-    img.className = "flyer-thumb";
+      card.appendChild(img);
+      
+      // Tooltip con data
+      card.title = `${item.dateStr} - ${item.name}`;
+      
+      card.addEventListener("click", () => openLightbox(item.url, item.name));
+      grid.appendChild(card);
+    });
+    
+    eventSection.appendChild(grid);
+    container.appendChild(eventSection);
+  });
 
-    card.appendChild(img);
-    card.addEventListener("click", () => openLightbox(src, alt));
-    container.appendChild(card);
+  // Re-apply intersection observer per fade-in
+  obs.disconnect();
+  document.querySelectorAll(".fade-in").forEach(el=>{
+    if(!el.style.opacity || el.style.opacity === "0") {
+      el.style.opacity="0";
+      el.style.transform="translateY(28px)";
+      el.style.transition="opacity .7s ease,transform .7s ease";
+      obs.observe(el);
+    }
   });
 }
 
