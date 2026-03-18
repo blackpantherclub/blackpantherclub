@@ -35,17 +35,6 @@
     .lang-option:hover { background:rgba(201,149,42,.12); color:var(--gold); }
     .lang-option.active { color:var(--gold); background:rgba(201,149,42,.08); }
     main { position:relative; z-index:1; padding-top:140px; min-height:100vh; }
-    .hero { text-align:center; padding:40px 24px 30px; }
-    .hero h1 { font-family:"Bebas Neue",sans-serif; font-size:4rem; letter-spacing:.08em; text-transform:uppercase; background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-shadow:0 0 40px rgba(201,149,42,.4); margin-bottom:16px; }
-    .hero p { font-size:1.1rem; color:rgba(232,232,240,.7); margin-bottom:32px; }
-    .highlights { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; padding:60px 48px; max-width:1400px; margin:0 auto; }
-    .highlight-card { background:var(--panel); border:1px solid rgba(201,149,42,.2); padding:32px 24px; text-align:center; transition:all .3s; backdrop-filter:blur(10px); }
-    .highlight-card:hover { border-color:var(--gold); transform:translateY(-4px); box-shadow:0 0 30px rgba(201,149,42,.2); }
-    .highlight-card h3 { font-size:1.2rem; margin-bottom:12px; color:var(--gold-light); }
-    .highlight-card p { color:rgba(232,232,240,.6); font-size:.95rem; }
-    /* ── HIDE FIRST TWO CARDS ── */
-    .highlight-card:nth-child(1),
-    .highlight-card:nth-child(2) { display:none; }
     .team-section { padding:30px 48px; max-width:1600px; margin:0 auto; }
     .team-section h2 { font-family:"Bebas Neue",sans-serif; font-size:2.4rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); margin-bottom:30px; text-align:center; }
     .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:48px; }
@@ -93,25 +82,9 @@
 </nav>
 
 <main>
-  <section class="hero">
-    <h1 data-i18n="dance_title">DANCE TEAM</h1>
-    <p data-i18n="dance_subtitle">Experience the excellence of our world-class dance ensembles at Black Panther Club</p>
-  </section>
 
-  <section class="highlights">
-    <div class="highlight-card fade-in">
-      <h3 data-i18n="dance_artistry">✨ Artistry</h3>
-      <p data-i18n="dance_artistry_desc">Master choreography and creative expression across multiple dance styles</p>
-    </div>
-    <div class="highlight-card fade-in">
-      <h3 data-i18n="dance_precision">🎯 Precision</h3>
-      <p data-i18n="dance_precision_desc">Synchronized movements and technical excellence in every performance</p>
-    </div>
-    <div class="highlight-card fade-in">
-      <h3 data-i18n="dance_energy">🔥 Energy</h3>
-      <p data-i18n="dance_energy_desc">Dynamic performances that captivate and inspire audiences worldwide</p>
-    </div>
-  </section>
+
+
 
   <section class="team-section" id="teams">
     <h2 data-i18n="dance_teams">Our Dance Teams</h2>
