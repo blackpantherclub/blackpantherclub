@@ -75,56 +75,42 @@
     <span class="nav-logo-text">BLACK PANTHER</span>
   </a>
   <ul class="nav-links">
-    <li><a href="https://black-panther.it/index.html">Home</a></li>
-    <li><a href="https://black-panther.it/calendario.html">Calendario DJ</a></li>
-    <li><a href="https://black-panther.it/gallery.html">Foto / Gallery</a></li>
-    <li><a href="https://black-panther.it/djs.html">I Nostri DJ</a></li>
-    <li><a href="https://black-panther.it/danceteam.html#teams">Dance Team</a></li>
-    <li><a href="https://black-panther.it/danceteam.html#flayer">Flayer</a></li>
-    <li><a href="https://black-panther.it/partner.html">Partner</a></li>
-    <li><a href="https://black-panther.it/contatti.html">Contatti</a></li>
-    <li><a href="https://black-panther.it/mymusic.html">My Music</a></li>
-    <li><a href="https://black-panther.it/login.html" class="register-btn">REGISTER / LOGIN</a></li>
+    <li><a href="https://black-panther.it/index.html"><span data-i18n="nav_home">Home</span></a></li>
+    <li><a href="https://black-panther.it/calendario.html"><span data-i18n="nav_calendar">Calendario DJ</span></a></li>
+    <li><a href="https://black-panther.it/gallery.html"><span data-i18n="nav_gallery">Foto / Gallery</span></a></li>
+    <li><a href="https://black-panther.it/djs.html"><span data-i18n="nav_djs">I Nostri DJ</span></a></li>
+    <li><a href="https://black-panther.it/danceteam.html#teams"><span data-i18n="nav_danceteam">Dance Team</span></a></li>
+    <li><a href="https://black-panther.it/danceteam.html#flayer"><span data-i18n="nav_flayer">Flayer</span></a></li>
+    <li><a href="https://black-panther.it/partner.html"><span data-i18n="nav_partner">Partner</span></a></li>
+    <li><a href="https://black-panther.it/contatti.html"><span data-i18n="nav_contatti">Contatti</span></a></li>
+    <li><a href="https://black-panther.it/mymusic.html"><span data-i18n="nav_mymusic">My Music</span></a></li>
+    <li><a href="https://black-panther.it/login.html" class="register-btn"><span data-i18n="nav_login">Register / Login</span></a></li>
   </ul>
-  <div class="language-selector">
-    <button class="lang-toggle" onclick="toggleLanguageMenu()">IT Italiano ▼</button>
-    <div class="lang-menu" id="langMenu">
-      <a href="#" onclick="changeLanguage('it')" class="lang-link">IT Italiano</a>
-      <a href="#" onclick="changeLanguage('en')" class="lang-link">GB English</a>
-      <a href="#" onclick="changeLanguage('es')" class="lang-link">ES Español</a>
-      <a href="#" onclick="changeLanguage('fr')" class="lang-link">FR Français</a>
-      <a href="#" onclick="changeLanguage('de')" class="lang-link">DE Deutsch</a>
-      <a href="#" onclick="changeLanguage('ru')" class="lang-link">RU Русский</a>
-      <a href="#" onclick="changeLanguage('pl')" class="lang-link">PL Polski</a>
-      <a href="#" onclick="changeLanguage('pt')" class="lang-link">PT Português</a>
-      <a href="#" onclick="changeLanguage('ua')" class="lang-link">UA Українська</a>
-    </div>
-  </div>
 </nav>
 
 <main>
   <section class="hero">
-    <h1>DANCE TEAM</h1>
-    <p>Experience the excellence of our world-class dance ensembles at Black Panther Club</p>
+    <h1 data-i18n="dance_title">DANCE TEAM</h1>
+    <p data-i18n="dance_subtitle">Experience the excellence of our world-class dance ensembles at Black Panther Club</p>
   </section>
 
   <section class="highlights">
     <div class="highlight-card fade-in">
-      <h3>✨ Artistry</h3>
-      <p>Master choreography and creative expression across multiple dance styles</p>
+      <h3 data-i18n="dance_artistry">✨ Artistry</h3>
+      <p data-i18n="dance_artistry_desc">Master choreography and creative expression across multiple dance styles</p>
     </div>
     <div class="highlight-card fade-in">
-      <h3>🎯 Precision</h3>
-      <p>Synchronized movements and technical excellence in every performance</p>
+      <h3 data-i18n="dance_precision">🎯 Precision</h3>
+      <p data-i18n="dance_precision_desc">Synchronized movements and technical excellence in every performance</p>
     </div>
     <div class="highlight-card fade-in">
-      <h3>🔥 Energy</h3>
-      <p>Dynamic performances that captivate and inspire audiences worldwide</p>
+      <h3 data-i18n="dance_energy">🔥 Energy</h3>
+      <p data-i18n="dance_energy_desc">Dynamic performances that captivate and inspire audiences worldwide</p>
     </div>
   </section>
 
   <section class="team-section" id="teams">
-    <h2>Our Dance Teams</h2>
+    <h2 data-i18n="dance_teams">Our Dance Teams</h2>
     <div class="team-grid">
       <div class="team-card fade-in">
         <img src="loghi/rd.png" alt="R|D Dance Team">
@@ -185,9 +171,7 @@ draw();
 document.addEventListener("mousemove",e=>{particles.forEach(p=>{let dx=e.clientX-p.x,dy=e.clientY-p.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){p.vx-=dx/dist*.3;p.vy-=dy/dist*.3;}p.vx*=.97;p.vy*=.97;});});
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity="1";e.target.style.transform="translateY(0)";}});},{threshold:.1});
 document.querySelectorAll(".fade-in").forEach(el=>{el.style.opacity="0";el.style.transform="translateY(28px)";el.style.transition="opacity .7s ease,transform .7s ease";obs.observe(el);});
-function toggleLanguageMenu(){const menu=document.getElementById("langMenu");menu.classList.toggle("active");}
-function changeLanguage(lang){document.getElementById("langMenu").classList.remove("active");console.log("Lingua cambiata a: "+lang);localStorage.setItem("language",lang);}
-document.addEventListener("click",function(e){const selector=document.querySelector(".language-selector");if(!selector.contains(e.target)){document.getElementById("langMenu").classList.remove("active");}});
+
 </script>
 <script src="lang.js"></script>
 </body>
