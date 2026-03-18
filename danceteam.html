@@ -25,14 +25,15 @@
     .register-btn { background:var(--gold); color:var(--deep); padding:8px 16px; border-radius:4px; transition:all .2s; }
     .register-btn:hover { background:var(--gold-light); transform:translateY(-2px); box-shadow:0 0 15px rgba(201,149,42,.4); }
     .register-btn:hover::after { display:none; }
-    .language-selector { position:relative; }
-    .lang-toggle { background:rgba(201,149,42,.2); color:var(--gold); border:1px solid rgba(201,149,42,.4); padding:8px 12px; border-radius:4px; font-size:.8rem; font-family:"Rajdhani",sans-serif; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:.05em; font-weight:600; }
-    .lang-toggle:hover { background:rgba(201,149,42,.3); border-color:var(--gold); }
-    .lang-menu { display:none; position:absolute; top:100%; right:0; background:rgba(4,3,10,.95); border:1px solid rgba(201,149,42,.3); border-radius:4px; min-width:160px; z-index:999; margin-top:4px; }
-    .lang-menu.active { display:flex; flex-direction:column; }
-    .lang-link { padding:10px 14px; color:var(--white); text-decoration:none; font-size:.8rem; letter-spacing:.05em; transition:all .2s; border-bottom:1px solid rgba(201,149,42,.1); }
-    .lang-link:last-child { border-bottom:none; }
-    .lang-link:hover { background:rgba(201,149,42,.15); color:var(--gold); padding-left:18px; }
+    /* ── LANG SWITCHER ── */
+    .lang-switcher { position:relative; margin-left:12px; }
+    .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:pointer; transition:all .2s; white-space:nowrap; border-radius:4px; }
+    .lang-btn:hover { background:rgba(201,149,42,.25); }
+    .lang-menu { display:none; position:absolute; top:calc(100% + 8px); right:0; background:rgba(4,3,10,.98); border:1px solid rgba(201,149,42,.25); min-width:160px; z-index:9999; box-shadow:0 12px 40px rgba(0,0,0,.6); border-radius:4px; }
+    .lang-menu.open { display:block; }
+    .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:pointer; transition:background .15s; white-space:nowrap; }
+    .lang-option:hover { background:rgba(201,149,42,.12); color:var(--gold); }
+    .lang-option.active { color:var(--gold); background:rgba(201,149,42,.08); }
     main { position:relative; z-index:1; padding-top:140px; min-height:100vh; }
     .hero { text-align:center; padding:80px 24px 60px; }
     .hero h1 { font-family:"Bebas Neue",sans-serif; font-size:4rem; letter-spacing:.08em; text-transform:uppercase; background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-shadow:0 0 40px rgba(201,149,42,.4); margin-bottom:16px; }
