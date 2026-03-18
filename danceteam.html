@@ -43,6 +43,9 @@
     .highlight-card:hover { border-color:var(--gold); transform:translateY(-4px); box-shadow:0 0 30px rgba(201,149,42,.2); }
     .highlight-card h3 { font-size:1.2rem; margin-bottom:12px; color:var(--gold-light); }
     .highlight-card p { color:rgba(232,232,240,.6); font-size:.95rem; }
+    /* ── HIDE FIRST TWO CARDS ── */
+    .highlight-card:nth-child(1),
+    .highlight-card:nth-child(2) { display:none; }
     .team-section { padding:30px 48px; max-width:1600px; margin:0 auto; }
     .team-section h2 { font-family:"Bebas Neue",sans-serif; font-size:2.4rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); margin-bottom:30px; text-align:center; }
     .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:48px; }
