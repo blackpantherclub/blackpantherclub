@@ -177,7 +177,7 @@ Quando cambi lingua, dovresti vedere in console che `applyLang()` viene eseguito
    - ❓ calendario.html → Da verificare
    - ❓ gallery.html → Da verificare
    - ❓ djs.html → Da verificare
-   - ❓ flayer.html → Da verificare
+   - ❓ flyer.html → Da verificare
    - ❓ partner.html → Da verificare
    - ❓ contatti.html → Da verificare
    - ❓ mymusic.html → Da verificare

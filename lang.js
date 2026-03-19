@@ -23,7 +23,7 @@ const T = {
   nav_gallery:    { it:'Foto / Gallery', en:'Photo / Gallery', es:'Fotos / Galería', fr:'Photos / Galerie', de:'Fotos / Galerie', ru:'Фото / Галерея', pl:'Zdjęcia / Galeria', pt:'Fotos / Galeria', uk:'Фото / Галерея' },
   nav_djs:        { it:'I Nostri DJ', en:'Our DJs', es:'Nuestros DJs', fr:'Nos DJs', de:'Unsere DJs', ru:'Наши DJ', pl:'Nasi DJs', pt:'Nossos DJs', uk:'Наші DJ' },
   nav_danceteam:  { it:'Dance Team', en:'Dance Team', es:'Equipo de Baile', fr:'Équipe de Danse', de:'Tanzteam', ru:'Танц Команда', pl:'Zespół Taneczny', pt:'Equipe de Dança', uk:'Танцювальна Команда' },
-  nav_flayer:     { it:'Flayer', en:'Flyers', es:'Folletos', fr:'Flyers', de:'Flyer', ru:'Флаеры', pl:'Ulotki', pt:'Flyers', uk:'Флаєри' },
+  nav_flyer:     { it:'Flyer', en:'Flyers', es:'Folletos', fr:'Flyers', de:'Flyer', ru:'Флаеры', pl:'Ulotki', pt:'Flyers', uk:'Флаєри' },
   nav_partner:    { it:'Partner', en:'Partners', es:'Socios', fr:'Partenaires', de:'Partner', ru:'Партнёры', pl:'Partnerzy', pt:'Parceiros', uk:'Партнери' },
   nav_contatti:   { it:'Contatti', en:'Contact', es:'Contacto', fr:'Contact', de:'Kontakt', ru:'Контакты', pl:'Kontakt', pt:'Contato', uk:'Контакти' },
   nav_mymusic:    { it:'My Music', en:'My Music', es:'Mi Música', fr:'Ma Musique', de:'Meine Musik', ru:'Моя Музыка', pl:'Moja Muzyka', pt:'Minha Música', uk:'Моя Музика' },
@@ -76,9 +76,9 @@ const T = {
   gallery_label:  { it:'Black Panther Club · 3DX Virtual World', en:'Black Panther Club · 3DX Virtual World', es:'Black Panther Club · Mundo Virtual 3DX', fr:'Black Panther Club · Monde Virtuel 3DX', de:'Black Panther Club · 3DX Virtuelle Welt', ru:'Black Panther Club · Виртуальный мир 3DX', pl:'Black Panther Club · Wirtualny Świat 3DX', pt:'Black Panther Club · Mundo Virtual 3DX', uk:'Black Panther Club · Віртуальний Світ 3DX' },
   gallery_title:  { it:'Foto & Gallery', en:'Photos & Gallery', es:'Fotos y Galería', fr:'Photos & Galerie', de:'Fotos & Galerie', ru:'Фото и Галерея', pl:'Zdjęcia i Galeria', pt:'Fotos e Galeria', uk:'Фото та Галерея' },
 
-  /* ── FLAYER ── */
-  flayer_label:   { it:'Black Panther Club · 3DX Virtual World', en:'Black Panther Club · 3DX Virtual World', es:'Black Panther Club · Mundo Virtual 3DX', fr:'Black Panther Club · Monde Virtuel 3DX', de:'Black Panther Club · 3DX Virtuelle Welt', ru:'Black Panther Club · Виртуальный мир 3DX', pl:'Black Panther Club · Wirtualny Świat 3DX', pt:'Black Panther Club · Mundo Virtual 3DX', uk:'Black Panther Club · Віртуальний Світ 3DX' },
-  flayer_title:   { it:'Flayer & Locandine', en:'Flyers & Posters', es:'Folletos y Carteles', fr:'Flyers & Affiches', de:'Flyer & Plakate', ru:'Флаеры и Постеры', pl:'Ulotki i Plakaty', pt:'Flyers e Cartazes', uk:'Флаєри та Постери' },
+  /* ── FLYER ── */
+  flyer_label:   { it:'Black Panther Club · 3DX Virtual World', en:'Black Panther Club · 3DX Virtual World', es:'Black Panther Club · Mundo Virtual 3DX', fr:'Black Panther Club · Monde Virtuel 3DX', de:'Black Panther Club · 3DX Virtuelle Welt', ru:'Black Panther Club · Виртуальный мир 3DX', pl:'Black Panther Club · Wirtualny Świat 3DX', pt:'Black Panther Club · Mundo Virtual 3DX', uk:'Black Panther Club · Віртуальний Світ 3DX' },
+  flyer_title:   { it:'Flyer & Locandine', en:'Flyers & Posters', es:'Folletos y Carteles', fr:'Flyers & Affiches', de:'Flyer & Plakate', ru:'Флаеры и Постеры', pl:'Ulotki i Plakaty', pt:'Flyers e Cartazes', uk:'Флаєри та Постери' },
 
   /* ── PARTNER ── */
   partner_label:  { it:'Black Panther Club · 3DX Virtual World', en:'Black Panther Club · 3DX Virtual World', es:'Black Panther Club · Mundo Virtual 3DX', fr:'Black Panther Club · Monde Virtuel 3DX', de:'Black Panther Club · 3DX Virtuelle Welt', ru:'Black Panther Club · Виртуальный мир 3DX', pl:'Black Panther Club · Wirtualny Świat 3DX', pt:'Black Panther Club · Mundo Virtual 3DX', uk:'Black Panther Club · Віртуальний Світ 3DX' },
