@@ -38,7 +38,7 @@
     footer p { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; opacity:.3; }
     @media(max-width:768px){ nav{padding:14px 20px;} .nav-links{display:none;} .page-wrap{padding:100px 20px 60px;} }
 
-    .flyer-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,220px)); gap:24px; }
+    .flyer-grid { display:flex; flex-wrap:wrap; gap:24px; }
     .flyer-card { width:220px; height:300px; border:1px solid rgba(201,149,42,.3); position:relative; overflow:hidden; transition:transform .3s,box-shadow .3s; cursor:pointer; }
     .flyer-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px rgba(0,0,0,.6); }
     .flyer-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(4,3,10,.9) 0%,rgba(59,0,204,.25) 50%,rgba(201,149,42,.15) 100%); }
