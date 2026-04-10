@@ -18,8 +18,8 @@
   .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
   .nav-logo img { width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(201,149,42,.6)); }
   .nav-logo-text { font-family:"Bebas Neue",sans-serif; font-size:1.6rem; letter-spacing:.2em; color:var(--gold); text-shadow:0 0 20px rgba(201,149,42,.5); }
-  .nav-links { display:flex; gap:14px; list-style:none; }
-  .nav-links a { font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s; position:relative; }
+  .nav-links { display:flex; gap:8px; list-style:none; flex-wrap:nowrap; }
+  .nav-links a { font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s; position:relative; }
   .nav-links a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
   .nav-links a:hover, .nav-links a.active { color:var(--gold); }
   .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
@@ -386,6 +386,13 @@
 <div id="modal-container"></div>
 
 <script>
+// Assicura compatibilità con lang.js
+window.addEventListener('DOMContentLoaded', function() {
+  // Previeni che lang.js sovrascriva contenuti dinamici auth
+  const authStatus = document.getElementById('auth-status');
+  if(authStatus) authStatus.setAttribute('data-no-i18n', 'true');
+});
+
 const YT_KEY    = 'AIzaSyDeAbT2kDQt6QAyQUvq8zLVb8xnJ5rA6Dg';
 const CLIENT_ID = '603504952447-ncshjpdp6lfe8afmri5thi5rsflg8bog.apps.googleusercontent.com';
 const SCOPES    = 'https://www.googleapis.com/auth/youtube';
@@ -432,10 +439,10 @@ async function fetchUser(){
     const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+accessToken}});
     const d = await r.json();
     const userName = (d.name && d.name !== 'undefined') ? d.name : (d.email && d.email !== 'undefined') ? d.email : 'Connesso';
-    document.getElementById('auth-status').innerHTML = '<span class="auth-dot"></span><span class="auth-connected">'+userName+'</span>';
+    document.getElementById('auth-status').innerHTML = '<span class="auth-dot"></span> '+userName;
     const btn = document.getElementById('auth-btn');
     btn.textContent='Disconnetti'; btn.onclick=logoutYT; btn.style.background='transparent'; btn.style.border='1px solid rgba(232,232,240,0.2)'; btn.style.color='rgba(232,232,240,0.4)';
-  }catch(e){ document.getElementById('auth-status').innerHTML='<span class="auth-dot"></span><span class="auth-connected">Connesso</span>'; }
+  }catch(e){ document.getElementById('auth-status').innerHTML='<span class="auth-dot"></span> Connesso'; }
 }
 
 function logoutYT(){

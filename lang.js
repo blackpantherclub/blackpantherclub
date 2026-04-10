@@ -145,7 +145,10 @@ function tr(key, lang) {
 function applyLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
+    // Salta elementi protetti o dentro contenitori protetti
+    if (el.closest('[data-no-i18n]') || el.hasAttribute('data-no-i18n')) return;
     const val = tr(key, lang);
+    if (!val || val === 'undefined') return;
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
       el.placeholder = val;
     } else {

@@ -21,8 +21,8 @@
     .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
     .nav-logo img { width:44px; height:44px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(201,149,42,.6)); }
     .nav-logo-text { font-family:"Bebas Neue",sans-serif; font-size:1.6rem; letter-spacing:.2em; color:var(--gold); text-shadow:0 0 20px rgba(201,149,42,.5); }
-    .nav-links { display:flex; gap:14px; list-style:none; }
-    .nav-links a { font-size:.85rem; letter-spacing:.12em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s; position:relative; }
+    .nav-links { display:flex; gap:8px; list-style:none; flex-wrap:nowrap; }
+    .nav-links a { font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--white); text-decoration:none; font-weight:600; transition:color .2s; position:relative; }
     .nav-links a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
     .nav-links a:hover, .nav-links a.active { color:var(--gold); }
     .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
@@ -64,11 +64,12 @@
 
     /* ── LANG SWITCHER ── */
     .lang-switcher { position:relative; margin-left:12px; }
-    .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:none; transition:all .2s; white-space:nowrap; }
+    .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:pointer; transition:all .2s; white-space:nowrap; border-radius:2px; }
     .lang-btn:hover { background:rgba(201,149,42,.25); }
-    .lang-menu { display:none; position:absolute; top:calc(100% + 8px); right:0; background:rgba(4,3,10,.98); border:1px solid rgba(201,149,42,.25); min-width:160px; z-index:9999; box-shadow:0 12px 40px rgba(0,0,0,.6); }
-    .lang-menu.open { display:block; }
-    .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:none; transition:background .15s; white-space:nowrap; }
+    .lang-menu { display:none; position:absolute; top:calc(100% + 8px); right:0; background:rgba(4,3,10,.98); border:1px solid rgba(201,149,42,.25); min-width:160px; z-index:9999; box-shadow:0 12px 40px rgba(0,0,0,.6); border-radius:2px; overflow:hidden; }
+    .lang-menu.open { display:block; animation:fadeIn .15s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+    .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:pointer; transition:background .15s; white-space:nowrap; }
     .lang-option:hover { background:rgba(201,149,42,.12); color:var(--gold); }
     .lang-option.active { color:var(--gold); background:rgba(201,149,42,.08); }
     .nav-admin-btn { color: #3b00cc !important; font-size: 16px; padding: 4px 10px !important; opacity: 0.5; transition: opacity 0.2s !important; }
