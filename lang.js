@@ -173,31 +173,54 @@ function buildLangSwitcher() {
 
   const wrapper = document.createElement('div');
   wrapper.className = 'lang-switcher';
-  wrapper.innerHTML = `
-    <button class="lang-btn" id="lang-current" onclick="toggleLangMenu(event)">
-      ${current.flag} ${current.code.toUpperCase()}
-    </button>
-    <div class="lang-menu" id="lang-menu">
-      ${LANGUAGES.map(l => `
-        <div class="lang-option ${l.code === lang ? 'active' : ''}"
-             data-lang="${l.code}"
-             onclick="setLang('${l.code}')">
-          ${l.flag} ${l.label}
-        </div>
-      `).join('')}
-    </div>
-  `;
+  wrapper.setAttribute('style', 'position:relative;margin-left:12px;');
+
+  const btn = document.createElement('button');
+  btn.className = 'lang-btn';
+  btn.id = 'lang-current';
+  btn.setAttribute('style', 'cursor:pointer;');
+  btn.textContent = current.flag + ' ' + current.code.toUpperCase();
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const menu = document.getElementById('lang-menu');
+    if (menu) menu.classList.toggle('open');
+  });
+
+  const menu = document.createElement('div');
+  menu.className = 'lang-menu';
+  menu.id = 'lang-menu';
+  // Assicura che il menu sia chiuso all'inizio
+  menu.style.display = 'none';
+
+  LANGUAGES.forEach(l => {
+    const opt = document.createElement('div');
+    opt.className = 'lang-option' + (l.code === lang ? ' active' : '');
+    opt.setAttribute('data-lang', l.code);
+    opt.textContent = l.flag + ' ' + l.label;
+    opt.addEventListener('click', function() { setLang(l.code); });
+    menu.appendChild(opt);
+  });
+
+  wrapper.appendChild(btn);
+  wrapper.appendChild(menu);
   return wrapper;
 }
 
 function toggleLangMenu(e) {
-  e.stopPropagation();
-  document.getElementById('lang-menu').classList.toggle('open');
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('lang-menu');
+  if (!menu) return;
+  const isOpen = menu.classList.contains('open');
+  menu.classList.toggle('open');
+  menu.style.display = isOpen ? 'none' : 'block';
 }
 
 document.addEventListener('click', () => {
   const m = document.getElementById('lang-menu');
-  if (m) m.classList.remove('open');
+  if (m) {
+    m.classList.remove('open');
+    m.style.display = 'none';
+  }
 });
 
 function initLang() {
