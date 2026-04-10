@@ -18,6 +18,7 @@ const LANGUAGES = [
 const T = {
 
   /* ── NAV ── */
+  nav_playlist:   { it:'Playlist Generator', en:'Playlist Generator', es:'Generador de Playlist', fr:'Générateur de Playlist', de:'Playlist Generator', ru:'Генератор Плейлиста', pl:'Generator Playlist', pt:'Gerador de Playlist', uk:'Генератор Плейлиста' },
   nav_home:       { it:'Home', en:'Home', es:'Inicio', fr:'Accueil', de:'Startseite', ru:'Главная', pl:'Strona główna', pt:'Início', uk:'Головна' },
   nav_calendar:   { it:'Calendario DJ', en:'DJ Calendar', es:'Calendario DJ', fr:'Calendrier DJ', de:'DJ Kalender', ru:'Календарь DJ', pl:'Kalendarz DJ', pt:'Calendário DJ', uk:'Календар DJ' },
   nav_gallery:    { it:'Foto / Gallery', en:'Photo / Gallery', es:'Fotos / Galería', fr:'Photos / Galerie', de:'Fotos / Galerie', ru:'Фото / Галерея', pl:'Zdjęcia / Galeria', pt:'Fotos / Galeria', uk:'Фото / Галерея' },
