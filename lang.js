@@ -173,31 +173,39 @@ function buildLangSwitcher() {
 
   const wrapper = document.createElement('div');
   wrapper.className = 'lang-switcher';
-  wrapper.setAttribute('style', 'position:relative;margin-left:12px;');
 
   const btn = document.createElement('button');
   btn.className = 'lang-btn';
   btn.id = 'lang-current';
-  btn.setAttribute('style', 'cursor:pointer;');
   btn.textContent = current.flag + ' ' + current.code.toUpperCase();
   btn.addEventListener('click', function(e) {
     e.stopPropagation();
-    const menu = document.getElementById('lang-menu');
-    if (menu) menu.classList.toggle('open');
+    toggleLangMenu();
   });
 
   const menu = document.createElement('div');
-  menu.className = 'lang-menu';
   menu.id = 'lang-menu';
-  // Assicura che il menu sia chiuso all'inizio
-  menu.style.display = 'none';
+  menu.style.cssText = 'display:none;position:absolute;top:calc(100% + 8px);right:0;background:rgba(4,3,10,.98);border:1px solid rgba(201,149,42,.25);min-width:160px;z-index:9999;box-shadow:0 12px 40px rgba(0,0,0,.6);border-radius:2px;overflow:hidden;';
 
-  LANGUAGES.forEach(l => {
+  LANGUAGES.forEach(function(l) {
     const opt = document.createElement('div');
     opt.className = 'lang-option' + (l.code === lang ? ' active' : '');
     opt.setAttribute('data-lang', l.code);
+    opt.style.cssText = 'padding:9px 16px;font-size:.82rem;font-weight:600;letter-spacing:.08em;cursor:pointer;transition:background .15s;white-space:nowrap;';
     opt.textContent = l.flag + ' ' + l.label;
-    opt.addEventListener('click', function() { setLang(l.code); });
+    opt.addEventListener('click', function(e) {
+      e.stopPropagation();
+      setLang(l.code);
+      closeLangMenu();
+    });
+    opt.addEventListener('mouseover', function() {
+      this.style.background = 'rgba(201,149,42,.12)';
+      this.style.color = '#c9952a';
+    });
+    opt.addEventListener('mouseout', function() {
+      this.style.background = '';
+      this.style.color = '';
+    });
     menu.appendChild(opt);
   });
 
@@ -206,21 +214,23 @@ function buildLangSwitcher() {
   return wrapper;
 }
 
-function toggleLangMenu(e) {
-  if (e) e.stopPropagation();
+function toggleLangMenu() {
   const menu = document.getElementById('lang-menu');
   if (!menu) return;
-  const isOpen = menu.classList.contains('open');
-  menu.classList.toggle('open');
-  menu.style.display = isOpen ? 'none' : 'block';
+  if (menu.style.display === 'none' || menu.style.display === '') {
+    menu.style.display = 'block';
+  } else {
+    menu.style.display = 'none';
+  }
 }
 
-document.addEventListener('click', () => {
-  const m = document.getElementById('lang-menu');
-  if (m) {
-    m.classList.remove('open');
-    m.style.display = 'none';
-  }
+function closeLangMenu() {
+  const menu = document.getElementById('lang-menu');
+  if (menu) menu.style.display = 'none';
+}
+
+document.addEventListener('click', function() {
+  closeLangMenu();
 });
 
 function initLang() {

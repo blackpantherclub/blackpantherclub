@@ -316,6 +316,9 @@
         <option value="3">3 risultati</option>
         <option value="5" selected>5 risultati</option>
         <option value="10">10 risultati</option>
+        <option value="20">20 risultati</option>
+        <option value="40">40 risultati</option>
+        <option value="50">50 risultati (max API)</option>
       </select>
     </div>
     <button class="btn-main" id="btn-track" onclick="searchTrack()">CERCA SU YOUTUBE</button>
@@ -551,11 +554,28 @@ function previewParsed(){
 }
 
 async function ytSearch(q,n,dur){
-  let url='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q='+encodeURIComponent(q)+'&maxResults='+(n||1)+'&key='+YT_KEY;
+  // YouTube API max e 50 per chiamata
+  const maxPerCall = 50;
+  let url='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q='+encodeURIComponent(q)+'&maxResults='+Math.min(n||1, maxPerCall)+'&key='+YT_KEY;
   if(dur) url+='&videoDuration='+dur;
   const r=await fetch(url);
   if(!r.ok) throw new Error('API error '+r.status);
-  return r.json();
+  const data = await r.json();
+
+  // Se servono piu di 50 e c'e un nextPageToken, fai altra chiamata
+  if(n > maxPerCall && data.nextPageToken && (data.items||[]).length >= maxPerCall){
+    const remaining = n - maxPerCall;
+    let url2 = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q='+encodeURIComponent(q)+'&maxResults='+Math.min(remaining, maxPerCall)+'&pageToken='+data.nextPageToken+'&key='+YT_KEY;
+    if(dur) url2+='&videoDuration='+dur;
+    try {
+      const r2 = await fetch(url2);
+      if(r2.ok){
+        const data2 = await r2.json();
+        data.items = (data.items||[]).concat(data2.items||[]);
+      }
+    } catch(e){}
+  }
+  return data;
 }
 
 function ct(t){return t.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');}
