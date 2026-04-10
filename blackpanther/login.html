@@ -748,6 +748,6 @@ for(let i=0;i<120;i++){let p=new Particle();p.life=Math.random();particles.push(
 function draw(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.life+=.003;if(p.life>p.maxLife)p.reset();let alpha=Math.sin((p.life/p.maxLife)*Math.PI)*.45;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba("+p.color+","+alpha+")";ctx.fill();p.x+=p.vx;p.y+=p.vy;});requestAnimationFrame(draw);}
 draw();
 </script>
-<script src="lang.js"></script>
+<script src="../lang.js"></script>
 </body>
 </html>

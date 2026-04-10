@@ -95,11 +95,12 @@
 
     /* ── LANG SWITCHER ── */
     .lang-switcher { position:relative; margin-left:12px; }
-    .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:none; transition:all .2s; white-space:nowrap; }
+    .lang-btn { background:rgba(201,149,42,.12); border:1px solid rgba(201,149,42,.3); color:var(--gold); font-family:"Rajdhani",sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.1em; padding:6px 12px; cursor:pointer; transition:all .2s; white-space:nowrap; border-radius:2px; }
     .lang-btn:hover { background:rgba(201,149,42,.25); }
-    .lang-menu { display:none; position:absolute; top:calc(100% + 8px); right:0; background:rgba(4,3,10,.98); border:1px solid rgba(201,149,42,.25); min-width:160px; z-index:9999; box-shadow:0 12px 40px rgba(0,0,0,.6); }
-    .lang-menu.open { display:block; }
-    .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:none; transition:background .15s; white-space:nowrap; }
+    .lang-menu { display:none !important; position:absolute; top:calc(100% + 8px); right:0; background:rgba(4,3,10,.98); border:1px solid rgba(201,149,42,.25); min-width:160px; z-index:9999; box-shadow:0 12px 40px rgba(0,0,0,.6); border-radius:2px; overflow:hidden; }
+    .lang-menu.open { display:block !important; animation:fadeIn .15s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+    .lang-option { padding:9px 16px; font-size:.82rem; font-weight:600; letter-spacing:.08em; cursor:pointer; transition:background .15s; white-space:nowrap; }
     .lang-option:hover { background:rgba(201,149,42,.12); color:var(--gold); }
     .lang-option.active { color:var(--gold); background:rgba(201,149,42,.08); }
   </style>
@@ -306,6 +307,6 @@ for(let i=0;i<120;i++){let p=new Particle();p.life=Math.random();particles.push(
 function draw(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.life+=.003;if(p.life>p.maxLife)p.reset();let alpha=Math.sin((p.life/p.maxLife)*Math.PI)*.45;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle="rgba("+p.color+","+alpha+")";ctx.fill();p.x+=p.vx;p.y+=p.vy;});requestAnimationFrame(draw);}
 draw();
 </script>
-<script src="lang.js"></script>
+<script src="../lang.js"></script>
 </body>
 </html>
