@@ -431,7 +431,8 @@ async function fetchUser(){
   try{
     const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+accessToken}});
     const d = await r.json();
-    document.getElementById('auth-status').innerHTML = '<span class="auth-dot"></span><span class="auth-connected">'+(d.name||d.email)+'</span>';
+    const userName = (d.name && d.name !== 'undefined') ? d.name : (d.email && d.email !== 'undefined') ? d.email : 'Connesso';
+    document.getElementById('auth-status').innerHTML = '<span class="auth-dot"></span><span class="auth-connected">'+userName+'</span>';
     const btn = document.getElementById('auth-btn');
     btn.textContent='Disconnetti'; btn.onclick=logoutYT; btn.style.background='transparent'; btn.style.border='1px solid rgba(232,232,240,0.2)'; btn.style.color='rgba(232,232,240,0.4)';
   }catch(e){ document.getElementById('auth-status').innerHTML='<span class="auth-dot"></span><span class="auth-connected">Connesso</span>'; }
