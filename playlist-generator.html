@@ -161,9 +161,112 @@
   .pl-list::-webkit-scrollbar-thumb { background:rgba(201,149,42,.3); border-radius:2px; }
 
   @media(max-width:768px){ .form-grid{grid-template-columns:1fr;} .page-wrap{padding:100px 20px 60px;} }
+
+  /* PASSWORD LOCK */
+  #password-overlay {
+    position:fixed; inset:0; z-index:9999;
+    background:var(--deep);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+  }
+  #password-overlay::before {
+    content:''; position:fixed; inset:0;
+    background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(201,149,42,0.10) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .lock-box {
+    background:rgba(8,5,20,0.97);
+    border:1px solid rgba(201,149,42,0.35);
+    border-radius:4px;
+    padding:52px 44px;
+    width:400px; max-width:92vw;
+    display:flex; flex-direction:column;
+    align-items:center; gap:18px;
+    box-shadow:0 0 80px rgba(201,149,42,0.10), 0 0 0 1px rgba(201,149,42,0.08);
+    position:relative; z-index:1;
+  }
+  .lock-logo {
+    font-family:"Bebas Neue",sans-serif;
+    font-size:2.2rem; letter-spacing:.28em;
+    color:var(--gold);
+    text-shadow:0 0 30px rgba(201,149,42,.5);
+    text-align:center;
+  }
+  .lock-sub {
+    font-size:.78rem; letter-spacing:.18em;
+    text-transform:uppercase;
+    color:rgba(232,232,240,0.3);
+    text-align:center; margin-top:-12px;
+  }
+  .lock-divider {
+    width:60px; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(201,149,42,0.5),transparent);
+    margin:2px 0;
+  }
+  .lock-icon { font-size:2rem; color:rgba(201,149,42,0.45); margin:2px 0; }
+  .lock-label {
+    font-size:.72rem; letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(201,149,42,0.7);
+    align-self:flex-start;
+  }
+  .lock-input {
+    width:100%; padding:13px 16px;
+    background:rgba(201,149,42,0.04);
+    border:1px solid rgba(201,149,42,0.22);
+    border-radius:2px; color:var(--white);
+    font-family:"Rajdhani",sans-serif;
+    font-size:1.05rem; letter-spacing:.12em;
+    outline:none; transition:border-color .25s, background .25s;
+  }
+  .lock-input:focus { border-color:rgba(201,149,42,0.65); background:rgba(201,149,42,0.07); }
+  .lock-btn {
+    width:100%; padding:14px;
+    background:var(--gold); color:#000;
+    border:none; border-radius:2px;
+    font-family:"Bebas Neue",sans-serif;
+    font-size:1.35rem; letter-spacing:.22em;
+    cursor:pointer; transition:all .2s;
+    margin-top:4px;
+  }
+  .lock-btn:hover { background:var(--gold-light); transform:translateY(-1px); box-shadow:0 6px 20px rgba(201,149,42,0.3); }
+  .lock-error {
+    font-size:.8rem; color:#ff6464;
+    letter-spacing:.08em; display:none;
+    text-align:center;
+  }
+  .lock-shake { animation:lockShake .38s ease; }
+  @keyframes lockShake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-9px)}
+    40%{transform:translateX(9px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
 </style>
 </head>
 <body>
+
+<!-- PASSWORD OVERLAY -->
+<div id="password-overlay">
+  <div class="lock-box">
+    <div class="lock-logo">BLACK PANTHER</div>
+    <div class="lock-sub">Playlist Generator</div>
+    <div class="lock-divider"></div>
+    <div class="lock-icon">🔒</div>
+    <div class="lock-label">Password di accesso</div>
+    <input
+      class="lock-input"
+      id="lock-input"
+      type="password"
+      placeholder="Inserisci la password..."
+      onkeydown="if(event.key==='Enter') checkPassword()"
+      autocomplete="off"
+    />
+    <div class="lock-error" id="lock-error">❌ Password errata. Riprova.</div>
+    <button class="lock-btn" onclick="checkPassword()">ACCEDI</button>
+  </div>
+</div>
 
 <nav>
   <a class="nav-logo" href="index.html">
@@ -389,6 +492,43 @@
 <div id="modal-container"></div>
 
 <script>
+// ── PASSWORD PROTECTION ──────────────────────────────────────────
+(function initLock() {
+  const PASS = 'Matteo2006@';
+  const KEY  = 'bp_playlist_auth';
+
+  if (sessionStorage.getItem(KEY) === '1') {
+    document.getElementById('password-overlay').style.display = 'none';
+    return;
+  }
+
+  document.body.style.overflow = 'hidden';
+
+  window.checkPassword = function () {
+    const input   = document.getElementById('lock-input');
+    const error   = document.getElementById('lock-error');
+    const box     = document.querySelector('.lock-box');
+
+    if (input.value === PASS) {
+      sessionStorage.setItem(KEY, '1');
+      const overlay = document.getElementById('password-overlay');
+      overlay.style.transition = 'opacity .45s ease';
+      overlay.style.opacity    = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 450);
+    } else {
+      input.value = '';
+      error.style.display = 'block';
+      box.classList.remove('lock-shake');
+      void box.offsetWidth;
+      box.classList.add('lock-shake');
+      setTimeout(() => { error.style.display = 'none'; }, 2800);
+    }
+  };
+})();
+// ────────────────────────────────────────────────────────────────
 // Assicura compatibilità con lang.js
 window.addEventListener('DOMContentLoaded', function() {
   // Previeni che lang.js sovrascriva contenuti dinamici auth
